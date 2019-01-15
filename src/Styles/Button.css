@@ -1,0 +1,100 @@
+button:focus {
+  outline: 0 !important;
+}
+
+.btn-header {
+  border: 2px solid #0cff19;
+}
+
+.btn-outline {
+  height: 38px;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 9999px;
+  font-size: 14px;
+  padding: 9px 30px 9px 30px;
+  border: 1px solid #dde7f8;
+  color: #002753;
+}
+
+.btn-outline:focus {
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #dde7f8;
+  color: #002753;
+}
+
+.btn-outline:active {
+  box-shadow: 0px 0px 1px 2px rgba(97, 205, 216, 1);
+}
+
+.btn-outline:disabled {
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #dde7f8;
+  color: #dde7f8;
+}
+
+.btn-outline:active {
+  color: #fff;
+  background-color: #002753;
+  border: 1px solid #002753;
+}
+
+.btn-outline:hover {
+  color: #fff;
+  background-color: #002753;
+  border: 1px solid #002753;
+}
+
+.btn {
+  margin: 0px;
+}
+
+.btn-outline-circle .btn-outline {
+  height: 38px;
+  width: 38px;
+  font-size: 16px;
+  padding: 0px !important;
+  text-align: center;
+}
+
+.btn-solid {
+  height: 38px;
+  background-color: #dcf4f6;
+  border-radius: 9999px;
+  font-size: 14px;
+  padding: 9px 30px 9px 30px;
+  border: 1px solid #dcf4f6;
+  color: #002753;
+}
+
+.btn-solid:focus {
+  color: lighten(#002753, 20%, relative);
+  background-color: hsl(185, 59%, 95%);
+  border: 1px solid hsl(185, 59%, 95%);
+}
+
+.btn-solid:active {
+  color: lighten(#002753, 20%, relative);
+  background-color: hsl(185, 59%, 95%);
+  border: 1px solid hsl(185, 59%, 95%);
+}
+
+.btn-solid:hover {
+  color: lighten(#002753, 20%, relative);
+  background-color: hsl(185, 59%, 95%);
+  border: 1px solid hsl(185, 59%, 95%);
+}
+
+.btn-header {
+  min-height: 68px;
+  padding: 15px 0px;
+}
+
+.btn-back {
+  height: 38px;
+  background-color: transparent;
+  border-radius: 9999px;
+  font-size: 14px;
+  padding: 9px 30px 9px 30px;
+  border: 1px solid transparent;
+  color: #002753;
+}

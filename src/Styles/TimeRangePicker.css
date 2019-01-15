@@ -1,0 +1,50 @@
+.sievo-popover {
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  left: 200px;
+  top: 200px;
+
+  z-index: 300;
+  transform: translateY(10px);
+  border: 1px solid #002753;
+  background-color: #fff;
+  min-width: 200px;
+  max-height: 400px;
+  padding: 7.5px;
+  overflow: hidden;
+  box-shadow: 0px 4px 7px -1px rgba(179, 179, 179, 0.65);
+}
+
+.sievo-popover::after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+.sievo-popover-control-icon {
+  margin-right: 5px;
+}
+
+.sievo-popover-parent {
+  position: relative;
+}
+
+.sievo-popover-parent.active:after {
+  bottom: 0%;
+  left: 0;
+  right: 0;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(0, 0, 0, 0);
+  border-bottom-color: #002753;
+  border-width: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: -12px;
+}
