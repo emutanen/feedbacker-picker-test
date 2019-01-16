@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import styled from "styled-components";
-import { isInRange, isCorner, isDisabled, isFullYear, getMonthId } from "./utils/monthPicker";
+import { isInRange, isLeftCorner, isRightCorner, isDisabled, isFullYear, getMonthId } from "./utils/monthPicker";
 
 const MonthPickerContainer = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const Area = styled.div`
 const MonthGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1px;
+  grid-row-gap: 3px;
   margin-right: 3px;
   -ms-grid-row: 1;
   -ms-grid-column: 2;
@@ -39,41 +39,46 @@ const YearGrid = styled.div`
 `;
 
 const Month = styled.button`
-  width: 39px;
-  height: 36px;
-  background: white !important;
-  color: #122442 !important;
-  box-shadow: 0 0 0 1px #e7e7e7 !important;
-  border: none !important;
-  outline: none !important;
-  margin: 0px;
-  font-size: 13px !important;
-  font-family: Qlikview Sans !important;
+  display: block;
+  box-sizing: border-box;
+  font-size: 13px;
+  font-family: Qlikview Sans;
   font-weight: normal;
   cursor: pointer;
 
+  width: 36px;
+  height: 36px;
+  border: none;
+
+  color: #164d85 !important;
+  background-color: white;
+
   &.btn-selected {
-    background: #5dcedb !important;
-    color: white !important;
-    box-shadow: 0 0 0 1px #4fbecb !important;
+    background-color: #164d85 !important;
+    color: white;
     z-index: 4 !important;
   }
   &.hover-active:hover:not(.btn-corner):not(:disabled) {
-    background: #7c55c0 !important;
+    background-color: #092642 !important;
+    border-radius: 100%;
     color: white !important;
-    box-shadow: 0 0 0 1px #6947a4 !important;
     z-index: 5 !important;
   }
   &.btn-range {
-    background: #75d5e0 !important;
+    background: #164d85 !important;
     color: white !important;
-    box-shadow: 0 0 0 1px #61cdd8 !important;
     z-index: 4 !important;
   }
-  &.btn-corner {
-    background: #5dcedb !important;
+  &.btn-range-endpoint-left {
+    background: #092642 !important;
+    border-radius: 100%;
     color: white !important;
-    box-shadow: 0 0 0 1px #4fbecb !important;
+    z-index: 5 !important;
+  }
+  &.btn-range-endpoint-right {
+    background: #092642 !important;
+    border-radius: 100%;
+    color: white !important;
     z-index: 5 !important;
   }
   &:disabled {
@@ -83,9 +88,8 @@ const Month = styled.button`
     cursor: auto !important;
   }
   &:active {
-    background: #5dcedb !important;
+    background: #092642 !important;
     color: white !important;
-    box-shadow: 0 0 0 1px #4fbecb !important;
   }
 `;
 
@@ -121,6 +125,63 @@ const Year = styled.button`
   }
 `;
 
+const LeftRangeEndMonthSetup = (key, isTouched, year, range, selectedRange, month, that) => (
+  <div
+    style={{
+      display: "block",
+      boxSizing: "border-box",
+      background: "linear-gradient(to left, #164d85 50%, white 50%)",
+      height: "100%",
+      width: "100%",
+      backgroundColor: "#164d85",
+    }}
+  >
+    {MonthSetup(key, isTouched, year, range, selectedRange, month, that)}
+  </div>
+);
+
+const RightRangeEndMonthSetup = (key, isTouched, year, range, selectedRange, month, that) => (
+  <div
+    style={{
+      display: "block",
+      boxSizing: "border-box",
+      background: "linear-gradient(to right, #164d85 50%, white 50%)",
+      height: "100%",
+      width: "100%",
+      backgroundColor: "#164d85",
+    }}
+  >
+    {MonthSetup(key, isTouched, year, range, selectedRange, month, that)}
+  </div>
+);
+
+const MonthSetup = (key, isTouched, year, range, selectedRange, month, that) => {
+  return (
+    <Month
+      key={key}
+      className={classNames({
+        "btn-month": true,
+        "hover-active": !isTouched,
+        "btn-range": isInRange(year, key + 1, range),
+        "btn-range-endpoint-left": isLeftCorner(year, key + 1, range),
+        "btn-range-endpoint-right": isRightCorner(year, key + 1, range),
+        "btn-selected": isInRange(year, key + 1, selectedRange), // isCorner(year, key + 1, selectedRange)
+      })}
+      value={month}
+      id={`${month}-${year}`}
+      disabled={!!isDisabled(year, key + 1, range)}
+      onMouseDown={e => that.onMouseDownMonth(e, year)}
+      onMouseMove={e => that.onMouseMoveMonth(e, year)}
+      onMouseUp={e => that.onMouseUpMonth(e, year)}
+      onTouchStart={e => that.onTouchStartMonth(e, year)}
+      onTouchMove={that.onTouchMoveMonth}
+      onTouchEnd={that.onTouchEndMonth}
+    >
+      {month}
+    </Month>
+  );
+};
+
 class MonthPicker extends Component {
   constructor(props) {
     super(props);
@@ -138,7 +199,7 @@ class MonthPicker extends Component {
     const { years, defaultRange } = this.props;
 
     this.years = years || [new Date().getFullYear()];
-    this.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    this.months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
     this.selectedRange = defaultRange && defaultRange.from && defaultRange.to ? defaultRange : {};
 
     this.state = {
@@ -306,34 +367,21 @@ class MonthPicker extends Component {
   };
 
   // Calendar layout
-  monthLayout = year =>
-    this.months.map((month, key) => {
+  monthLayout = year => {
+    var that = this;
+    return this.months.map((month, key) => {
       const { range, selectedRange, isTouched } = this.state;
-
-      return (
-        <Month
-          key={key}
-          className={classNames({
-            "btn-month": true,
-            "hover-active": !isTouched,
-            "btn-range": isInRange(year, key + 1, range),
-            "btn-corner": isCorner(year, key + 1, range),
-            "btn-selected": isInRange(year, key + 1, selectedRange) || isCorner(year, key + 1, selectedRange),
-          })}
-          value={month}
-          id={`${month}-${year}`}
-          disabled={!!isDisabled(year, key + 1, range)}
-          onMouseDown={e => this.onMouseDownMonth(e, year)}
-          onMouseMove={e => this.onMouseMoveMonth(e, year)}
-          onMouseUp={e => this.onMouseUpMonth(e, year)}
-          onTouchStart={e => this.onTouchStartMonth(e, year)}
-          onTouchMove={this.onTouchMoveMonth}
-          onTouchEnd={this.onTouchEndMonth}
-        >
-          {month}
-        </Month>
-      );
+      let monthElement;
+      if (isLeftCorner(year, key + 1, range)) {
+        monthElement = LeftRangeEndMonthSetup(key, isTouched, year, range, selectedRange, month, that);
+      } else if (isRightCorner(year, key + 1, range)) {
+        monthElement = RightRangeEndMonthSetup(key, isTouched, year, range, selectedRange, month, that);
+      } else {
+        monthElement = MonthSetup(key, isTouched, year, range, selectedRange, month, that);
+      }
+      return monthElement;
     });
+  };
 
   yearLayout = year => {
     const { selectedYear, isTouched } = this.state;

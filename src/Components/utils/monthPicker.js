@@ -12,18 +12,28 @@ export const isInRange = (year, monthId, range) => {
   return false;
 };
 
-export const isCorner = (year, monthId, range) => {
+export const isLeftCorner = (year, monthId, range) => {
   if (!range.from && !range.to) {
     return false;
   }
   const currentDate = moment([year, monthId - 1, 1]).format("YYYY-MM-DD");
   const fromDate = moment([range.from.year, range.from.month - 1, 1]).format("YYYY-MM-DD");
 
+  return moment(currentDate).isSame(fromDate);
+};
+
+export const isRightCorner = (year, monthId, range) => {
+  if (!range.from && !range.to) {
+    return false;
+  }
+
+  const currentDate = moment([year, monthId - 1, 1]).format("YYYY-MM-DD");
+
   if (range.to) {
     const toDate = moment([range.to.year, range.to.month - 1, 1]).format("YYYY-MM-DD");
-    return moment(currentDate).isSame(fromDate) || moment(currentDate).isSame(toDate);
+    return moment(currentDate).isSame(toDate);
   }
-  return moment(currentDate).isSame(fromDate);
+  return false;
 };
 
 export const isFullYear = rangeInState => {
