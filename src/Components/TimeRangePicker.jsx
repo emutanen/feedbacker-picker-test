@@ -13,25 +13,20 @@ import { toDisplayedTime } from "../Utils/timeIdConverter";
 import "../Styles/TimeRangePicker.css";
 import styled from "styled-components";
 
-const PopoverHeader = styled.div`
-  color: black;
-  border: 2px solid #123546;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 100%;
-  padding: 7.5px 7.5px 15px 7.5px;
-  font-size: 16px;
-  text-align: center;
+const PopoverStyled = styled(Popover)`
+  position: relative;
 `;
 
 const PopoverContent = styled.div`
-  border: 2px solid #ee2bee;
-  flex-grow: 1;
-  flex-shrink: 1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
 `;
 
-const PopoverFooter = styled.div`
+const PopoverRangeDisplay = styled.div`
   border: 2px solid #3bee2b;
+  color: black;
   flex-grow: 0;
   flex-shrink: 0;
   width: 100%;
@@ -40,18 +35,35 @@ const PopoverFooter = styled.div`
   text-align: center;
 `;
 
+const LeftArrow = styled.div`
+  float: left;
+  display: inline-block;
+  width: 48px;
+  color: black;
+  border: 4px solid #123456;
+`;
+
+const RightArrow = styled.div`
+  float: right;
+  display: inline-block;
+  width: 48px;
+  color: black;
+  border: 4px solid #123456;
+`;
+
 // prettier-ignore
 const generateRange = (from, to) =>
   Array((to - from) + 1)
     .fill(from)
     .map((n, i) => (n + i).toString());
 
-const TimePicker = ({ from, to, onSetHandler, timeRangeInStore }) => (
+const TimePicker = ({ from, to, onSetHandler, timeRangeInStore, yearTranslateStyle }) => (
   <div>
     <MonthPicker
       defaultRange={timeRangeInStore}
       years={from && to ? generateRange(from, to) : {}}
       onChange={selectedRange => onSetHandler(selectedRange)}
+      yearTranslateStyle={yearTranslateStyle}
     />
   </div>
 );
@@ -65,22 +77,52 @@ TimePicker.propTypes = {
 
 const enhanceTimePicker = component =>
   compose(
+    withState("rangeTranslation", "setRangeTranslation", 0),
+    withHandlers({
+      incrementTranslation: props => event => {
+        event.preventDefault();
+        props.setRangeTranslation(props.rangeTranslation + 1);
+      },
+      decrementTranslation: props => event => {
+        event.preventDefault();
+        props.setRangeTranslation(props.rangeTranslation - 1);
+      },
+    }),
     withState("startSelection", "setStartSelection", undefined),
     withState("endHover", "setEndHover", undefined),
     withState("endSelection", "setEndSelection", undefined),
   )(component);
 
 const PickerPopoverContent = props => (
-  <Popover placement="bottom" position="centered">
-    <PopoverHeader>Select a time scope</PopoverHeader>
-    <PopoverContent>
-      <TimePicker from={2010} to={2015} {...props} />
-    </PopoverContent>
-    <PopoverFooter>
+  <PopoverStyled placement="bottom" position="centered">
+    <LeftArrow
+      id="timerange-left-arrow"
+      type="input"
+      onClick={e => {
+        props.decrementTranslation(e);
+        console.log("Clicked left arrow!");
+      }}
+    >
+      Click Me
+    </LeftArrow>
+    <RightArrow
+      id="timerange-right-arrow"
+      type="input"
+      onClick={e => {
+        props.incrementTranslation(e);
+        console.log("Clicked right arrow!");
+      }}
+    >
+      Click meh!
+    </RightArrow>
+    <PopoverRangeDisplay>
       {(props.timeRangeInStore.start && props.timeRangeInStore.start.year) || ""} -{" "}
       {props.timeRangeInStore.end.year || ""}
-    </PopoverFooter>
-  </Popover>
+    </PopoverRangeDisplay>
+    <PopoverContent>
+      <TimePicker from={2010} to={2015} yearTranslateStyle={props.rangeTranslation} {...props} />
+    </PopoverContent>
+  </PopoverStyled>
 );
 
 PickerPopoverContent.propTypes = {

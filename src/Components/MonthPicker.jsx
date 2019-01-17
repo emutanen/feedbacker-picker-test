@@ -7,7 +7,9 @@ import { isInRange, isLeftCorner, isRightCorner, isDisabled, isFullYear, getMont
 const MonthPickerContainer = styled.div`
   display: flex;
   flex-direction: row;
-  overflow: auto;
+  position: relative;
+  transform: ${props => (props.yearTranslateStyle ? `translate(-${props.yearTranslateStyle})` : "")};
+  transition: 0.2s ease-in-out;
 `;
 
 const RowArea = styled.div`
@@ -18,7 +20,7 @@ const RowArea = styled.div`
 const Area = styled.div`
   display: -ms-grid;
   display: grid;
-  grid-template-rows: repeat(auto-fill, minmax(64px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(42px, 1fr));
   background-color: transparent;
   margin: 1px;
 `;
@@ -33,8 +35,7 @@ const MonthGrid = styled.div`
 `;
 
 const YearGrid = styled.div`
-  display: flex;
-  box-shadow: 0 0 0 1px #e7e7e7 !important;
+  display: grid;
   justify-content: center;
 `;
 
@@ -94,14 +95,13 @@ const Month = styled.button`
 `;
 
 const Year = styled.button`
+  border: none !important;
   align-self: center;
   background: white !important;
   color: #122442 !important;
-  border: none !important;
-  border-radius: 50% !important;
-  outline: none !important;
-  padding: 20px;
-  height: 70px;
+  border-radius: 24px !important;
+
+  height: 36px;
   width: 70px;
   font-weight: normal;
   font-size: 13px !important;
@@ -109,19 +109,17 @@ const Year = styled.button`
   cursor: pointer;
 
   &.btn-selected {
+    background-color: #092642 !important;
     background: #5dcedb !important;
     color: white !important;
-    box-shadow: 0 0 0 1px #4fbecb !important;
   }
   &.hover-active:hover {
-    background: #7c55c0 !important;
+    background-color: #092642 !important;
     color: white !important;
-    box-shadow: 0 0 0 1px #6947a4 !important;
   }
   &:active {
-    background: #5dcedb !important;
+    background-color: #092642 !important;
     color: white !important;
-    box-shadow: 0 0 0 1px #4fbecb !important;
   }
 `;
 
@@ -402,6 +400,7 @@ class MonthPicker extends Component {
   };
 
   render() {
+    const translateInPx = `${this.props.yearTranslateStyle * 111}px`;
     return (
       <MonthPickerContainer
         className="month-picker"
@@ -409,6 +408,7 @@ class MonthPicker extends Component {
         ref={node => {
           this.bodywrapper = node;
         }}
+        yearTranslateStyle={translateInPx}
       >
         {this.years.map((year, key) => (
           <RowArea key={key}>

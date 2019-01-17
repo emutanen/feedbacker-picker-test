@@ -1,3 +1,8 @@
+.popover-content {
+  width: 222px;
+  height: 276px;
+}
+
 button:focus {
   outline: 0 !important;
 }
