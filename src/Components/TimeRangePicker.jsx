@@ -10,6 +10,10 @@ import MonthPicker from "./MonthPicker";
 import * as timeRangeActions from "../Actions/timeRangeActions";
 import { timeRangeSelector } from "../Selectors/timeRangeSelectors";
 import { toDisplayedTime } from "../Utils/timeIdConverter";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
+
 import "../Styles/TimeRangePicker.css";
 import styled from "styled-components";
 
@@ -35,20 +39,27 @@ const PopoverRangeDisplay = styled.div`
   text-align: center;
 `;
 
+const FontAwesomeIconStyled = styled(FontAwesomeIcon)`
+  box-sizing: border-box;
+  font-size: 32px;
+`;
+
 const LeftArrow = styled.div`
-  float: left;
+  position: absolute;
+  left: 0;
   display: inline-block;
-  width: 48px;
   color: black;
   border: 4px solid #123456;
+  cursor: pointer;
 `;
 
 const RightArrow = styled.div`
-  float: right;
+  position: absolute;
+  right: 0;
   display: inline-block;
-  width: 48px;
   color: black;
   border: 4px solid #123456;
+  cursor: pointer;
 `;
 
 // prettier-ignore
@@ -95,6 +106,13 @@ const enhanceTimePicker = component =>
 
 const PickerPopoverContent = props => (
   <PopoverStyled placement="bottom" position="centered">
+    <PopoverRangeDisplay>
+      {(props.timeRangeInStore.start && props.timeRangeInStore.start.year) || ""} -{" "}
+      {props.timeRangeInStore.end.year || ""}
+    </PopoverRangeDisplay>
+    <PopoverContent>
+      <TimePicker from={2010} to={2015} yearTranslateStyle={props.rangeTranslation} {...props} />
+    </PopoverContent>
     <LeftArrow
       id="timerange-left-arrow"
       type="input"
@@ -103,7 +121,7 @@ const PickerPopoverContent = props => (
         console.log("Clicked left arrow!");
       }}
     >
-      Click Me
+      <FontAwesomeIconStyled icon={faCaretLeft} />
     </LeftArrow>
     <RightArrow
       id="timerange-right-arrow"
@@ -113,15 +131,8 @@ const PickerPopoverContent = props => (
         console.log("Clicked right arrow!");
       }}
     >
-      Click meh!
+      <FontAwesomeIconStyled icon={faCaretRight} />
     </RightArrow>
-    <PopoverRangeDisplay>
-      {(props.timeRangeInStore.start && props.timeRangeInStore.start.year) || ""} -{" "}
-      {props.timeRangeInStore.end.year || ""}
-    </PopoverRangeDisplay>
-    <PopoverContent>
-      <TimePicker from={2010} to={2015} yearTranslateStyle={props.rangeTranslation} {...props} />
-    </PopoverContent>
   </PopoverStyled>
 );
 
