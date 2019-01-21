@@ -235,10 +235,12 @@ class MonthPicker extends Component {
     const monthId = getMonthId(this.months, e.target.value);
     if (!range.from) {
       const container = this.bodywrapper;
-      this.setState({ range: { from: { year, month: monthId.toString() } } });
+      const newRange = { from: { year, month: monthId.toString() } };
+      this.setState(newRange);
       this.setState({ scroll: container.scrollTop });
       this.setState({ selectedRange: {} });
       this.setState({ selectedYear: "" });
+      this.props.onRangeChange(newRange);
       return;
     }
     const newRange = {
@@ -429,6 +431,7 @@ MonthPicker.propTypes = {
   }),
   years: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func,
+  onRangeChange: PropTypes.func,
 };
 
 export default MonthPicker;

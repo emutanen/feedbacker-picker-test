@@ -5,17 +5,12 @@ import { compose } from "redux";
 import { withState, withHandlers, withProps } from "recompose";
 import { Popover } from "@sievo/react-common-components";
 import MonthPicker from "./MonthPicker";
-// import { Popover } from "react-bootstrap";
-// import YearPicker from "./YearPicker";
 import * as timeRangeActions from "../Actions/timeRangeActions";
-import { timeRangeSelector } from "../Selectors/timeRangeSelectors";
 import { toDisplayedTime } from "../Utils/timeIdConverter";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
-
-import "../Styles/TimeRangePicker.css";
 import styled from "styled-components";
+import "../Styles/TimeRangePicker.css";
 
 const PopoverStyled = styled(Popover)`
   position: relative;
@@ -29,10 +24,7 @@ const PopoverContent = styled.div`
 `;
 
 const PopoverRangeDisplay = styled.div`
-  border: 2px solid #3bee2b;
   color: black;
-  flex-grow: 0;
-  flex-shrink: 0;
   width: 100%;
   padding: 15px 7.5px 7.5px 7.5px;
   font-size: 16px;
@@ -41,7 +33,6 @@ const PopoverRangeDisplay = styled.div`
 
 const FontAwesomeIconStyled = styled(FontAwesomeIcon)`
   position: relative;
-  box-sizing: border-box;
 `;
 
 const LeftArrow = styled.div`
@@ -76,13 +67,14 @@ const generateRange = (from, to) =>
     .fill(from)
     .map((n, i) => (n + i).toString());
 
-const TimePicker = ({ from, to, onSetHandler, timeRangeInStore, yearTranslateStyle }) => (
+const TimePicker = ({ from, to, onSetHandler, timeRangeInStore, yearTranslateStyle, onUpdateHandler }) => (
   <div>
     <MonthPicker
       defaultRange={timeRangeInStore}
       years={from && to ? generateRange(from, to) : {}}
       onChange={selectedRange => onSetHandler(selectedRange)}
       yearTranslateStyle={yearTranslateStyle}
+      onRangeChange={range => onUpdateHandler(range)}
     />
   </div>
 );
@@ -91,6 +83,7 @@ TimePicker.propTypes = {
   from: PropTypes.number,
   to: PropTypes.number,
   onSetHandler: PropTypes.func,
+  onUpdateHandler: PropTypes.func,
   timeRangeInStore: PropTypes.instanceOf(Object),
 };
 
@@ -99,13 +92,12 @@ const enhanceTimePicker = component =>
     withState("rangeTranslation", "setRangeTranslation", 0),
     withProps(props => {
       return {
-        maxIncrements: props.toYear - props.fromYear - 2, // 2 years visible means 2 increments less to see the final year
+        maxIncrements: props.toYear - props.fromYear - 2, // In the design, 2 years are visible. That is why 2 increments less are needed to see the final year.
       };
     }),
     withHandlers({
       incrementTranslation: props => event => {
         event.preventDefault();
-        console.log("world!");
         if (props.rangeTranslation <= props.maxIncrements) {
           props.setRangeTranslation(props.rangeTranslation + 1);
         }
@@ -117,16 +109,13 @@ const enhanceTimePicker = component =>
         }
       },
     }),
-    withState("startSelection", "setStartSelection", undefined),
-    withState("endHover", "setEndHover", undefined),
-    withState("endSelection", "setEndSelection", undefined),
   )(component);
 
 const PickerPopoverContent = props => (
   <PopoverStyled placement="bottom" position="centered">
     <PopoverRangeDisplay>
-      {(props.timeRangeInStore.start && props.timeRangeInStore.start.year) || ""} -{" "}
-      {props.timeRangeInStore.end.year || ""}
+      {(props.displayRange.from && props.displayRange.from.year) || ""} -{" "}
+      {(props.displayRange.to && props.displayRange.to.year) || ""}
     </PopoverRangeDisplay>
     <PopoverContent>
       <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
@@ -143,10 +132,7 @@ const PickerPopoverContent = props => (
       id="timerange-right-arrow"
       className="right-arrow-button"
       type="input"
-      onClick={e => {
-        props.incrementTranslation(e);
-        console.log("Hello");
-      }}
+      onClick={props.incrementTranslation}
     >
       <FontAwesomeIconStyled icon={faCaretRight} />
     </RightArrow>
@@ -155,28 +141,26 @@ const PickerPopoverContent = props => (
 
 PickerPopoverContent.propTypes = {
   onSetHandler: PropTypes.func,
+  onUpdateHandler: PropTypes.func,
   timeRangeInStore: PropTypes.instanceOf(Object),
-  setStartSelection: PropTypes.func,
-  setEndHover: PropTypes.func,
-  setEndSelection: PropTypes.func,
 };
 
 const EnhancedPopoverContent = enhanceTimePicker(PickerPopoverContent);
 
-const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler }) => {
-  const start = timeRangeInStore.get("start").toJS();
-  const end = timeRangeInStore.get("end").toJS();
-  const displayStart = start ? toDisplayedTime(start.year, start.month) : " ";
-  const displayEnd = end ? toDisplayedTime(end.year, end.month) : " ";
-
+const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, displayRange, onUpdateHandler }) => {
   const fromYear = 1900;
   const toYear = 1910;
+  const from = timeRangeInStore.get("start").toJS();
+  const to = timeRangeInStore.get("end").toJS();
+  const displayFrom = from ? toDisplayedTime(from.year, from.month) : " ";
+  const displayTo = to ? toDisplayedTime(to.year, to.month) : " ";
+  const timeRangeEval = timeRangeInStore ? timeRangeInStore.toJS() : {};
 
   return (
     <span>
       <button className={`btn btn-outline sievo-popover-parent ${active ? "active" : ""}`} onClick={toggle}>
         <i className="fa fa-calendar sievo-popover-control-icon" aria-hidden="true" />
-        {`${displayStart} - ${displayEnd}`}
+        {`${displayFrom} - ${displayTo}`}
       </button>
       {active ? (
         <EnhancedPopoverContent
@@ -184,7 +168,9 @@ const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler }
             onSetHandler(range);
             toggle();
           }}
-          timeRangeInStore={timeRangeInStore ? timeRangeInStore.toJS() : {}}
+          onUpdateHandler={range => onUpdateHandler(range)}
+          timeRangeInStore={timeRangeEval}
+          displayRange={displayRange ? displayRange : timeRangeEval}
           fromYear={fromYear}
           toYear={toYear}
         />
@@ -198,12 +184,20 @@ ScopePickerPrototype.propTypes = {
   toggle: PropTypes.func,
   timeRangeInStore: PropTypes.instanceOf(Object),
   onSetHandler: PropTypes.func,
+  displayRange: PropTypes.instanceOf(Object),
+  onUpdateHandler: PropTypes.func,
 };
 
 const ScopePicker = compose(
   withState("active", "setActive", false),
+  withState("displayRange", "setDisplayRange", undefined),
   withHandlers({
     toggle: ({ setActive }) => () => setActive(active => !active),
+    onUpdateHandler: props => range => {
+      console.log("Uusi range: ", range);
+      props.setDisplayRange(range);
+      // this.setState({ displayRange: range });
+    },
   }),
   connect(
     state => ({
