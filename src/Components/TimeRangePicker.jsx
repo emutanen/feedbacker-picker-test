@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { withState, withHandlers } from "recompose";
+import { withState, withHandlers, withProps } from "recompose";
 import { Popover } from "@sievo/react-common-components";
 import MonthPicker from "./MonthPicker";
 // import { Popover } from "react-bootstrap";
@@ -97,14 +97,24 @@ TimePicker.propTypes = {
 const enhanceTimePicker = component =>
   compose(
     withState("rangeTranslation", "setRangeTranslation", 0),
+    withProps(props => {
+      return {
+        maxIncrements: props.toYear - props.fromYear - 2, // 2 years visible means 2 increments less to see the final year
+      };
+    }),
     withHandlers({
       incrementTranslation: props => event => {
         event.preventDefault();
-        props.setRangeTranslation(props.rangeTranslation + 1);
+        console.log("world!");
+        if (props.rangeTranslation <= props.maxIncrements) {
+          props.setRangeTranslation(props.rangeTranslation + 1);
+        }
       },
       decrementTranslation: props => event => {
         event.preventDefault();
-        props.setRangeTranslation(props.rangeTranslation - 1);
+        if (props.rangeTranslation > 0) {
+          props.setRangeTranslation(props.rangeTranslation - 1);
+        }
       },
     }),
     withState("startSelection", "setStartSelection", undefined),
@@ -119,15 +129,13 @@ const PickerPopoverContent = props => (
       {props.timeRangeInStore.end.year || ""}
     </PopoverRangeDisplay>
     <PopoverContent>
-      <TimePicker from={2010} to={2015} yearTranslateStyle={props.rangeTranslation} {...props} />
+      <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
     </PopoverContent>
     <LeftArrow
       id="timerange-left-arrow"
       className="left-arrow-button"
       type="input"
-      onClick={e => {
-        props.decrementTranslation(e);
-      }}
+      onClick={props.decrementTranslation}
     >
       <FontAwesomeIconStyled icon={faCaretLeft} />
     </LeftArrow>
@@ -137,6 +145,7 @@ const PickerPopoverContent = props => (
       type="input"
       onClick={e => {
         props.incrementTranslation(e);
+        console.log("Hello");
       }}
     >
       <FontAwesomeIconStyled icon={faCaretRight} />
@@ -160,6 +169,9 @@ const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler }
   const displayStart = start ? toDisplayedTime(start.year, start.month) : " ";
   const displayEnd = end ? toDisplayedTime(end.year, end.month) : " ";
 
+  const fromYear = 1900;
+  const toYear = 1910;
+
   return (
     <span>
       <button className={`btn btn-outline sievo-popover-parent ${active ? "active" : ""}`} onClick={toggle}>
@@ -173,6 +185,8 @@ const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler }
             toggle();
           }}
           timeRangeInStore={timeRangeInStore ? timeRangeInStore.toJS() : {}}
+          fromYear={fromYear}
+          toYear={toYear}
         />
       ) : null}
     </span>
