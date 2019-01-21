@@ -15,23 +15,22 @@ const MonthPickerContainer = styled.div`
 const RowArea = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 5px;
+  margin-right: 5px;
 `;
 
 const Area = styled.div`
+  width: 105px; // fixed width for the design
   display: -ms-grid;
   display: grid;
   grid-template-rows: repeat(auto-fill, minmax(42px, 1fr));
   background-color: transparent;
-  margin: 1px;
 `;
 
 const MonthGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 0fr);
   grid-row-gap: 3px;
-  margin-right: 3px;
-  -ms-grid-row: 1;
-  -ms-grid-column: 2;
 `;
 
 const YearGrid = styled.div`
@@ -51,42 +50,42 @@ const Month = styled.button`
   height: 36px;
   border: none;
 
-  color: #164d85 !important;
+  color: #164d85;
   background-color: white;
 
   &.btn-selected {
-    background-color: #164d85 !important;
+    background-color: #164d85;
     color: white;
-    z-index: 4 !important;
+    z-index: 4;
   }
   &.hover-active:hover:not(.btn-corner):not(:disabled) {
-    background-color: #092642 !important;
+    background-color: #b7bcc0;
     border-radius: 100%;
-    color: white !important;
-    z-index: 5 !important;
+    color: black;
+    z-index: 5;
   }
   &.btn-range {
-    background: #164d85 !important;
-    color: white !important;
-    z-index: 4 !important;
+    background: #164d85;
+    color: white;
+    z-index: 4;
   }
   &.btn-range-endpoint-left {
-    background: #092642 !important;
+    background: #092642;
     border-radius: 100%;
-    color: white !important;
-    z-index: 5 !important;
+    color: white;
+    z-index: 5;
   }
   &.btn-range-endpoint-right {
-    background: #092642 !important;
+    background: #092642;
     border-radius: 100%;
-    color: white !important;
-    z-index: 5 !important;
+    color: white;
+    z-index: 5;
   }
   &:disabled {
-    color: #9aa2ae !important;
-    background: #f5f7f7 !important;
-    box-shadow: 0 0 0 1px #e7e7e7 !important;
-    cursor: auto !important;
+    color: #9aa2ae;
+    background: #f5f7f7;
+    box-shadow: 0 0 0 1px #e7e7e7;
+    cursor: auto;
   }
   &:active {
     background: #092642 !important;
@@ -400,7 +399,7 @@ class MonthPicker extends Component {
   };
 
   render() {
-    const translateInPx = `${this.props.yearTranslateStyle * 111}px`;
+    const translateInPx = `${this.props.yearTranslateStyle * 115}px`;
     return (
       <MonthPickerContainer
         className="month-picker"

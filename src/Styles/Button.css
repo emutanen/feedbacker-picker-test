@@ -1,6 +1,16 @@
 .popover-content {
-  width: 222px;
+  width: 232px;
   height: 276px;
+}
+
+.left-arrow-button > svg {
+  display: block;
+  margin: auto;
+}
+
+.right-arrow-button > svg {
+  display: block;
+  margin: auto;
 }
 
 button:focus {

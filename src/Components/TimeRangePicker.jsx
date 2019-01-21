@@ -40,25 +40,33 @@ const PopoverRangeDisplay = styled.div`
 `;
 
 const FontAwesomeIconStyled = styled(FontAwesomeIcon)`
+  position: relative;
   box-sizing: border-box;
-  font-size: 32px;
 `;
 
 const LeftArrow = styled.div`
   position: absolute;
-  left: 0;
-  display: inline-block;
+  overflow: hidden;
+  height: 26px;
+  line-height: 1;
+  left: 6px;
+  transform: translateY(8px);
+  font-size: 28px;
+
   color: black;
-  border: 4px solid #123456;
   cursor: pointer;
 `;
 
 const RightArrow = styled.div`
   position: absolute;
-  right: 0;
-  display: inline-block;
+  overflow: hidden;
+  height: 26px;
+  line-height: 1;
+  right: 6px;
+  transform: translateY(8px);
+  font-size: 28px;
+
   color: black;
-  border: 4px solid #123456;
   cursor: pointer;
 `;
 
@@ -115,20 +123,20 @@ const PickerPopoverContent = props => (
     </PopoverContent>
     <LeftArrow
       id="timerange-left-arrow"
+      className="left-arrow-button"
       type="input"
       onClick={e => {
         props.decrementTranslation(e);
-        console.log("Clicked left arrow!");
       }}
     >
       <FontAwesomeIconStyled icon={faCaretLeft} />
     </LeftArrow>
     <RightArrow
       id="timerange-right-arrow"
+      className="right-arrow-button"
       type="input"
       onClick={e => {
         props.incrementTranslation(e);
-        console.log("Clicked right arrow!");
       }}
     >
       <FontAwesomeIconStyled icon={faCaretRight} />
