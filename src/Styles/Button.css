@@ -3,6 +3,35 @@
   height: 276px;
 }
 
+h2 {
+  font-size: 14px;
+  color: black;
+}
+
+.headline {
+  margin-top: 75px;
+  color: black;
+  font-size: 16px;
+}
+
+.comments {
+  margin-top: 300px;
+  padding: 40px;
+  color: black;
+  font-size: 14px;
+}
+
+.instruction {
+  padding: 40px;
+  width: 600px;
+  text-align: left;
+}
+
+.instruction > h2 {
+  color: black;
+  font-size: 14px;
+}
+
 .left-arrow-button > svg {
   display: block;
   margin: auto;
@@ -34,7 +63,7 @@ button:focus {
 .btn-outline:focus {
   background-color: rgba(0, 0, 0, 0);
   border: 1px solid #dde7f8;
-  color: #002753;
+  color: #005304;
 }
 
 .btn-outline:active {

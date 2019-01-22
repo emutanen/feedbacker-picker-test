@@ -16,6 +16,10 @@ const PopoverStyled = styled(Popover)`
   position: relative;
 `;
 
+const PopoverContentParent = styled.div`
+  position: absolute;
+`;
+
 const PopoverContent = styled.div`
   width: 100%;
   height: 100%;
@@ -121,26 +125,28 @@ const PickerPopoverContent = props => {
 
   return (
     <PopoverStyled placement="bottom" position="centered">
-      <PopoverRangeDisplay>{`${displayFrom}-${displayTo}`}</PopoverRangeDisplay>
-      <PopoverContent>
-        <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
-      </PopoverContent>
-      <LeftArrow
-        id="timerange-left-arrow"
-        className="left-arrow-button"
-        type="input"
-        onClick={props.decrementTranslation}
-      >
-        <FontAwesomeIconStyled icon={faCaretLeft} />
-      </LeftArrow>
-      <RightArrow
-        id="timerange-right-arrow"
-        className="right-arrow-button"
-        type="input"
-        onClick={props.incrementTranslation}
-      >
-        <FontAwesomeIconStyled icon={faCaretRight} />
-      </RightArrow>
+      <PopoverContentParent>
+        <PopoverRangeDisplay>{`${displayFrom}-${displayTo}`}</PopoverRangeDisplay>
+        <PopoverContent>
+          <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
+        </PopoverContent>
+        <LeftArrow
+          id="timerange-left-arrow"
+          className="left-arrow-button"
+          type="input"
+          onClick={props.decrementTranslation}
+        >
+          <FontAwesomeIconStyled icon={faCaretLeft} />
+        </LeftArrow>
+        <RightArrow
+          id="timerange-right-arrow"
+          className="right-arrow-button"
+          type="input"
+          onClick={props.incrementTranslation}
+        >
+          <FontAwesomeIconStyled icon={faCaretRight} />
+        </RightArrow>
+      </PopoverContentParent>
     </PopoverStyled>
   );
 };
@@ -154,8 +160,8 @@ PickerPopoverContent.propTypes = {
 const EnhancedPopoverContent = enhanceTimePicker(PickerPopoverContent);
 
 const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, displayRange, onUpdateHandler }) => {
-  const fromYear = 1900;
-  const toYear = 1910;
+  const fromYear = 2004;
+  const toYear = 2019;
   const from = timeRangeInStore.get("start").toJS();
   const to = timeRangeInStore.get("end").toJS();
   const displayFrom = from ? toDisplayedTime(from.year, from.month) : " ";

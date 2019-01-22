@@ -10,6 +10,11 @@
 
 .sievo-popover-parent {
   position: relative;
+  border: 1px solid #002753 !important;
+}
+
+.sievo-popover-parent:hover {
+  color: white !important;
 }
 
 .sievo-popover-parent.active:after {

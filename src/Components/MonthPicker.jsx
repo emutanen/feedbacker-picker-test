@@ -261,6 +261,9 @@ class MonthPicker extends Component {
       range: { from: range.from, to: { year, month: monthId.toString() } },
     });
     this.setScroll(e.target.offsetTop);
+    this.props.onRangeChange({
+      range: { from: range.from, to: { year, month: monthId.toString() } },
+    });
   };
 
   onMouseUpMonth = (e, year) => {
