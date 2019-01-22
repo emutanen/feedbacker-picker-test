@@ -111,33 +111,39 @@ const enhanceTimePicker = component =>
     }),
   )(component);
 
-const PickerPopoverContent = props => (
-  <PopoverStyled placement="bottom" position="centered">
-    <PopoverRangeDisplay>
-      {(props.displayRange.from && props.displayRange.from.year) || ""} -{" "}
-      {(props.displayRange.to && props.displayRange.to.year) || ""}
-    </PopoverRangeDisplay>
-    <PopoverContent>
-      <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
-    </PopoverContent>
-    <LeftArrow
-      id="timerange-left-arrow"
-      className="left-arrow-button"
-      type="input"
-      onClick={props.decrementTranslation}
-    >
-      <FontAwesomeIconStyled icon={faCaretLeft} />
-    </LeftArrow>
-    <RightArrow
-      id="timerange-right-arrow"
-      className="right-arrow-button"
-      type="input"
-      onClick={props.incrementTranslation}
-    >
-      <FontAwesomeIconStyled icon={faCaretRight} />
-    </RightArrow>
-  </PopoverStyled>
-);
+const PickerPopoverContent = props => {
+  const displayFrom = props.displayRange.from
+    ? toDisplayedTime(props.displayRange.from.year, props.displayRange.from.month)
+    : " ";
+  const displayTo = props.displayRange.to
+    ? toDisplayedTime(props.displayRange.to.year, props.displayRange.to.month)
+    : " ";
+
+  return (
+    <PopoverStyled placement="bottom" position="centered">
+      <PopoverRangeDisplay>{`${displayFrom}-${displayTo}`}</PopoverRangeDisplay>
+      <PopoverContent>
+        <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
+      </PopoverContent>
+      <LeftArrow
+        id="timerange-left-arrow"
+        className="left-arrow-button"
+        type="input"
+        onClick={props.decrementTranslation}
+      >
+        <FontAwesomeIconStyled icon={faCaretLeft} />
+      </LeftArrow>
+      <RightArrow
+        id="timerange-right-arrow"
+        className="right-arrow-button"
+        type="input"
+        onClick={props.incrementTranslation}
+      >
+        <FontAwesomeIconStyled icon={faCaretRight} />
+      </RightArrow>
+    </PopoverStyled>
+  );
+};
 
 PickerPopoverContent.propTypes = {
   onSetHandler: PropTypes.func,
@@ -168,7 +174,9 @@ const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, 
             onSetHandler(range);
             toggle();
           }}
-          onUpdateHandler={range => onUpdateHandler(range)}
+          onUpdateHandler={range => {
+            onUpdateHandler(range);
+          }}
           timeRangeInStore={timeRangeEval}
           displayRange={displayRange ? displayRange : timeRangeEval}
           fromYear={fromYear}
@@ -193,10 +201,9 @@ const ScopePicker = compose(
   withState("displayRange", "setDisplayRange", undefined),
   withHandlers({
     toggle: ({ setActive }) => () => setActive(active => !active),
-    onUpdateHandler: props => range => {
-      console.log("Uusi range: ", range);
-      props.setDisplayRange(range);
-      // this.setState({ displayRange: range });
+    onUpdateHandler: props => rangeObj => {
+      console.log("Uusi range: ", rangeObj);
+      props.setDisplayRange(rangeObj.range);
     },
   }),
   connect(

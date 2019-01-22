@@ -122,7 +122,7 @@ const Year = styled.button`
   }
 `;
 
-const LeftRangeEndMonthSetup = (key, isTouched, year, range, selectedRange, month, that) => (
+const LeftRangeEndMonthButtonSetup = (key, isTouched, year, range, selectedRange, month, that) => (
   <div
     style={{
       display: "block",
@@ -137,7 +137,7 @@ const LeftRangeEndMonthSetup = (key, isTouched, year, range, selectedRange, mont
   </div>
 );
 
-const RightRangeEndMonthSetup = (key, isTouched, year, range, selectedRange, month, that) => (
+const RightRangeEndMonthButtonSetup = (key, isTouched, year, range, selectedRange, month, that) => (
   <div
     style={{
       display: "block",
@@ -235,12 +235,11 @@ class MonthPicker extends Component {
     const monthId = getMonthId(this.months, e.target.value);
     if (!range.from) {
       const container = this.bodywrapper;
-      const newRange = { from: { year, month: monthId.toString() } };
-      this.setState(newRange);
+      this.setState({ range: { from: { year, month: monthId.toString() } } });
       this.setState({ scroll: container.scrollTop });
       this.setState({ selectedRange: {} });
       this.setState({ selectedYear: "" });
-      this.props.onRangeChange(newRange);
+      this.props.onRangeChange({ range: { from: { year, month: monthId.toString() } } });
       return;
     }
     const newRange = {
@@ -372,9 +371,9 @@ class MonthPicker extends Component {
       const { range, selectedRange, isTouched } = this.state;
       let monthElement;
       if (isLeftCorner(year, key + 1, range)) {
-        monthElement = LeftRangeEndMonthSetup(key, isTouched, year, range, selectedRange, month, that);
+        monthElement = LeftRangeEndMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
       } else if (isRightCorner(year, key + 1, range)) {
-        monthElement = RightRangeEndMonthSetup(key, isTouched, year, range, selectedRange, month, that);
+        monthElement = RightRangeEndMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
       } else {
         monthElement = MonthSetup(key, isTouched, year, range, selectedRange, month, that);
       }
