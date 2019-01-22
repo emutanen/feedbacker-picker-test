@@ -12,14 +12,6 @@ import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import "../Styles/TimeRangePicker.css";
 
-const PopoverStyled = styled(Popover)`
-  position: relative;
-`;
-
-const PopoverContentParent = styled.div`
-  position: absolute;
-`;
-
 const PopoverContent = styled.div`
   width: 100%;
   height: 100%;
@@ -124,30 +116,28 @@ const PickerPopoverContent = props => {
     : " ";
 
   return (
-    <PopoverStyled placement="bottom" position="centered">
-      <PopoverContentParent>
-        <PopoverRangeDisplay>{`${displayFrom}-${displayTo}`}</PopoverRangeDisplay>
-        <PopoverContent>
-          <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
-        </PopoverContent>
-        <LeftArrow
-          id="timerange-left-arrow"
-          className="left-arrow-button"
-          type="input"
-          onClick={props.decrementTranslation}
-        >
-          <FontAwesomeIconStyled icon={faCaretLeft} />
-        </LeftArrow>
-        <RightArrow
-          id="timerange-right-arrow"
-          className="right-arrow-button"
-          type="input"
-          onClick={props.incrementTranslation}
-        >
-          <FontAwesomeIconStyled icon={faCaretRight} />
-        </RightArrow>
-      </PopoverContentParent>
-    </PopoverStyled>
+    <Popover width="230" position="centered">
+      <PopoverRangeDisplay>{`${displayFrom}-${displayTo}`}</PopoverRangeDisplay>
+      <PopoverContent>
+        <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
+      </PopoverContent>
+      <LeftArrow
+        id="timerange-left-arrow"
+        className="left-arrow-button"
+        type="input"
+        onClick={props.decrementTranslation}
+      >
+        <FontAwesomeIconStyled icon={faCaretLeft} />
+      </LeftArrow>
+      <RightArrow
+        id="timerange-right-arrow"
+        className="right-arrow-button"
+        type="input"
+        onClick={props.incrementTranslation}
+      >
+        <FontAwesomeIconStyled icon={faCaretRight} />
+      </RightArrow>
+    </Popover>
   );
 };
 
@@ -169,7 +159,7 @@ const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, 
   const timeRangeEval = timeRangeInStore ? timeRangeInStore.toJS() : {};
 
   return (
-    <span>
+    <div style={{ width: "38%", marginLeft: "180px" }}>
       <button className={`btn btn-outline sievo-popover-parent ${active ? "active" : ""}`} onClick={toggle}>
         <i className="fa fa-calendar sievo-popover-control-icon" aria-hidden="true" />
         {`${displayFrom} - ${displayTo}`}
@@ -189,7 +179,7 @@ const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, 
           toYear={toYear}
         />
       ) : null}
-    </span>
+    </div>
   );
 };
 
