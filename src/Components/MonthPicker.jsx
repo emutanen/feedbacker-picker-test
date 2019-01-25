@@ -2,7 +2,16 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import styled from "styled-components";
-import { isInRange, isLeftCorner, isRightCorner, isDisabled, isFullYear, getMonthId } from "./utils/monthPicker";
+import {
+  isInRange,
+  isLeftCorner,
+  isRightCorner,
+  isDisabled,
+  isFullYear,
+  getMonthId,
+  isLeftQuarter,
+  isRightQuarter,
+} from "./utils/monthPicker";
 
 const MonthPickerContainer = styled.div`
   display: flex;
@@ -69,6 +78,18 @@ const Month = styled.button`
     color: white;
     z-index: 4;
   }
+  &.btn-quarter-left {
+    background: #164d85;
+    border-radius: 100%;
+    color: white;
+    z-index: 4;
+  }
+  &.btn-quarter-right {
+    background: #164d85;
+    border-radius: 100%;
+    color: white;
+    z-index: 4;
+  }
   &.btn-range-endpoint-left {
     background: #092642;
     border-radius: 100%;
@@ -122,12 +143,42 @@ const Year = styled.button`
   }
 `;
 
+const LeftQuarterMonthButtonSetup = (key, isTouched, year, range, selectedRange, month, that) => (
+  <div
+    style={{
+      display: "block",
+      boxSizing: "border-box",
+      background: "linear-gradient(to left, #164d85 50%, white 50%)",
+      height: "100%",
+      width: "100%",
+      backgroundColor: "#164d85",
+    }}
+  >
+    {MonthSetup(key, isTouched, year, range, selectedRange, month, that)}
+  </div>
+);
+
 const LeftRangeEndMonthButtonSetup = (key, isTouched, year, range, selectedRange, month, that) => (
   <div
     style={{
       display: "block",
       boxSizing: "border-box",
       background: "linear-gradient(to left, #164d85 50%, white 50%)",
+      height: "100%",
+      width: "100%",
+      backgroundColor: "#164d85",
+    }}
+  >
+    {MonthSetup(key, isTouched, year, range, selectedRange, month, that)}
+  </div>
+);
+
+const RightQuarterMonthButtonSetup = (key, isTouched, year, range, selectedRange, month, that) => (
+  <div
+    style={{
+      display: "block",
+      boxSizing: "border-box",
+      background: "linear-gradient(to right, #164d85 50%, white 50%)",
       height: "100%",
       width: "100%",
       backgroundColor: "#164d85",
@@ -162,7 +213,9 @@ const MonthSetup = (key, isTouched, year, range, selectedRange, month, that) => 
         "btn-range": isInRange(year, key + 1, range),
         "btn-range-endpoint-left": isLeftCorner(year, key + 1, range),
         "btn-range-endpoint-right": isRightCorner(year, key + 1, range),
-        "btn-selected": isInRange(year, key + 1, selectedRange), // isCorner(year, key + 1, selectedRange)
+        "btn-selected": isInRange(year, key + 1, selectedRange),
+        "btn-quarter-left": isLeftQuarter(year, key + 1, range),
+        "btn-quarter-right": isRightQuarter(year, key + 1, range),
       })}
       value={month}
       id={`${month}-${year}`}
@@ -378,7 +431,13 @@ class MonthPicker extends Component {
       } else if (isRightCorner(year, key + 1, range)) {
         monthElement = RightRangeEndMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
       } else {
-        monthElement = MonthSetup(key, isTouched, year, range, selectedRange, month, that);
+        if (isRightQuarter(year, key + 1, range)) {
+          monthElement = RightQuarterMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
+        } else if (isLeftQuarter(year, key + 1, range)) {
+          monthElement = LeftQuarterMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
+        } else {
+          monthElement = MonthSetup(key, isTouched, year, range, selectedRange, month, that);
+        }
       }
       return monthElement;
     });

@@ -13,7 +13,10 @@ export const isInRange = (year, monthId, range) => {
 };
 
 export const isLeftCorner = (year, monthId, range) => {
-  if (!range.from && !range.to) {
+  if (!range.from || !range.to) {
+    return false;
+  }
+  if (range.from.year === range.to.year && range.from.month === range.to.month) {
     return false;
   }
   const currentDate = moment([year, monthId - 1, 1]).format("YYYY-MM-DD");
@@ -23,7 +26,10 @@ export const isLeftCorner = (year, monthId, range) => {
 };
 
 export const isRightCorner = (year, monthId, range) => {
-  if (!range.from && !range.to) {
+  if (!range.from || !range.to) {
+    return false;
+  }
+  if (range.from.year === range.to.year && range.from.month === range.to.month) {
     return false;
   }
 
@@ -34,6 +40,20 @@ export const isRightCorner = (year, monthId, range) => {
     return moment(currentDate).isSame(toDate);
   }
   return false;
+};
+
+export const isLeftQuarter = (year, monthId, range) => {
+  if (!range.from || !range.to) {
+    return false;
+  }
+  return monthId % 3 === 1 && isInRange(year, monthId, range);
+};
+
+export const isRightQuarter = (year, monthId, range) => {
+  if (!range.from || !range.to) {
+    return false;
+  }
+  return monthId % 3 === 0 && isInRange(year, monthId, range);
 };
 
 export const isFullYear = rangeInState => {
