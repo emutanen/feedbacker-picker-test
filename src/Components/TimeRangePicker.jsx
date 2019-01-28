@@ -85,11 +85,13 @@ TimePicker.propTypes = {
 
 const enhanceTimePicker = component =>
   compose(
-    withState("rangeTranslation", "setRangeTranslation", 0),
     withProps(props => {
       return {
         maxIncrements: props.toYear - props.fromYear - 2, // In the design, 2 years are visible. That is why 2 increments less are needed to see the final year.
       };
+    }),
+    withState("rangeTranslation", "setRangeTranslation", props => {
+      return props.maxIncrements + 1;
     }),
     withHandlers({
       incrementTranslation: props => event => {

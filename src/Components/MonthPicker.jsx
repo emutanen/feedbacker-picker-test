@@ -462,7 +462,7 @@ class MonthPicker extends Component {
   };
 
   render() {
-    const translateInPx = `${this.props.yearTranslateStyle * 115}px`;
+    const translateInPx = `${this.props.yearTranslateStyle * 115}px`; // this number is meaningful for design
     return (
       <MonthPickerContainer
         className="month-picker"
