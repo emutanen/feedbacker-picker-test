@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const getMonthId = (months, id) => months.findIndex(month => month === id) + 1;
+export const getMonthNumber = (months, id) => months.findIndex(month => month === id) + 1; // if id not found, returns 0
 
 export const isInRange = (year, monthId, range) => {
   if (range.from && range.to) {

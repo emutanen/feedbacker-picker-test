@@ -8,7 +8,7 @@ import MonthPicker from "./MonthPicker";
 import * as timeRangeActions from "../Actions/timeRangeActions";
 import { toDisplayedTime } from "../Utils/timeIdConverter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCaretRight, faCaretLeft, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import "../Styles/TimeRangePicker.css";
 
@@ -59,7 +59,7 @@ const RightArrow = styled.div`
 
 // prettier-ignore
 const generateRange = (from, to) =>
-  Array((to - from) + 1)
+  Array((to - from) + 1) // this is correct
     .fill(from)
     .map((n, i) => (n + i).toString());
 
@@ -161,7 +161,7 @@ const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, 
   return (
     <div style={{ width: "38%", marginLeft: "180px" }}>
       <button className={`btn btn-outline sievo-popover-parent ${active ? "active" : ""}`} onClick={toggle}>
-        <i className="fa fa-calendar sievo-popover-control-icon" aria-hidden="true" />
+        <FontAwesomeIcon style={{ marginRight: "8px" }} icon={faCalendarDay} />
         {`${displayFrom} - ${displayTo}`}
       </button>
       {active ? (
@@ -198,7 +198,6 @@ const ScopePicker = compose(
   withHandlers({
     toggle: ({ setActive }) => () => setActive(active => !active),
     onUpdateHandler: props => rangeObj => {
-      console.log("Uusi range: ", rangeObj);
       props.setDisplayRange(rangeObj.range);
     },
   }),

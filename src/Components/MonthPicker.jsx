@@ -8,7 +8,7 @@ import {
   isRightCorner,
   isDisabled,
   isFullYear,
-  getMonthId,
+  getMonthNumber,
   isLeftQuarter,
   isRightQuarter,
 } from "./utils/monthPicker";
@@ -285,19 +285,19 @@ class MonthPicker extends Component {
     const { onChange } = this.props;
     if (isTouched === true) return;
 
-    const monthId = getMonthId(this.months, e.target.value);
+    const monthNumber = getMonthNumber(this.months, e.target.value);
     if (!range.from) {
       const container = this.bodywrapper;
-      this.setState({ range: { from: { year, month: monthId.toString() } } });
+      this.setState({ range: { from: { year, month: monthNumber.toString() } } });
       this.setState({ scroll: container.scrollTop });
       this.setState({ selectedRange: {} });
       this.setState({ selectedYear: "" });
-      this.props.onRangeChange({ range: { from: { year, month: monthId.toString() } } });
+      this.props.onRangeChange({ range: { from: { year, month: monthNumber.toString() } } });
       return;
     }
     const newRange = {
       from: range.from,
-      to: { year, month: monthId.toString() },
+      to: { year, month: monthNumber.toString() },
     };
     this.setState({ range: {} });
     this.setState({ selectedRange: newRange });
@@ -309,13 +309,13 @@ class MonthPicker extends Component {
     const { isTouched, range } = this.state;
     if (!range.from || !!isTouched) return;
 
-    const monthId = getMonthId(this.months, e.target.value);
+    const monthNumber = getMonthNumber(this.months, e.target.value);
     this.setState({
-      range: { from: range.from, to: { year, month: monthId.toString() } },
+      range: { from: range.from, to: { year, month: monthNumber.toString() } },
     });
     this.setScroll(e.target.offsetTop);
     this.props.onRangeChange({
-      range: { from: range.from, to: { year, month: monthId.toString() } },
+      range: { from: range.from, to: { year, month: monthNumber.toString() } },
     });
   };
 
@@ -324,8 +324,8 @@ class MonthPicker extends Component {
     const { onChange } = this.props;
     if (!range.from || !!isTouched) return;
 
-    const monthId = getMonthId(this.months, e.target.value);
-    if (range.from.year === year && range.from.month === monthId.toString()) {
+    const monthNumber = getMonthNumber(this.months, e.target.value);
+    if (range.from.year === year && range.from.month === monthNumber.toString()) {
       return;
     }
     if (isFullYear(range)) {
@@ -333,7 +333,7 @@ class MonthPicker extends Component {
     }
     const newRange = {
       from: range.from,
-      to: { year, month: monthId.toString() },
+      to: { year, month: monthNumber.toString() },
     };
     this.setState({ range: {} });
     this.setState({ selectedRange: newRange });
@@ -363,10 +363,10 @@ class MonthPicker extends Component {
 
     this.setState({ isTouched: true });
     const target = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-    const monthId = getMonthId(this.months, target.value);
+    const monthNumber = getMonthNumber(this.months, target.value);
     if (!range.from) {
       const container = this.bodywrapper;
-      this.setState({ range: { from: { year, month: monthId.toString() } } });
+      this.setState({ range: { from: { year, month: monthNumber.toString() } } });
       this.setState({ scroll: container.scrollTop });
       this.setState({ selectedRange: {} });
       this.setState({ selectedYear: "" });
@@ -374,7 +374,7 @@ class MonthPicker extends Component {
     }
     const newRange = {
       from: range.from,
-      to: { year, month: monthId.toString() },
+      to: { year, month: monthNumber.toString() },
     };
     this.setState({ range: {} });
     this.setState({ selectedRange: newRange });
@@ -389,9 +389,9 @@ class MonthPicker extends Component {
     const target = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
     const year = target.id.split("-")[1];
     if (!year) return;
-    const monthId = getMonthId(this.months, target.value);
+    const monthNumber = getMonthNumber(this.months, target.value);
     this.setState({
-      range: { from: range.from, to: { year, month: monthId.toString() } },
+      range: { from: range.from, to: { year, month: monthNumber.toString() } },
     });
     this.setScroll(e.target.offsetTop);
   };
@@ -403,8 +403,8 @@ class MonthPicker extends Component {
 
     const target = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
     const year = target.id.split("-")[1];
-    const monthId = getMonthId(this.months, target.value);
-    if (!year || (range.from.year === year && range.from.month === monthId.toString())) {
+    const monthNumber = getMonthNumber(this.months, target.value);
+    if (!year || (range.from.year === year && range.from.month === monthNumber.toString())) {
       return;
     }
     if (isFullYear(range)) {
@@ -412,7 +412,7 @@ class MonthPicker extends Component {
     }
     const newRange = {
       from: range.from,
-      to: { year, month: monthId.toString() },
+      to: { year, month: monthNumber.toString() },
     };
     this.setState({ range: {} });
     this.setState({ selectedRange: newRange });

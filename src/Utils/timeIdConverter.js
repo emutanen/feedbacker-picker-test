@@ -6,7 +6,7 @@ const timeIdDisplayedFormat = "yyyy/MM";
 // eslint-disable-next-line
 export function toDisplayedTime(year, month) {
   // const timeId = toTimeId(year, month);
-  const parsedDate = format(new Date(year, month), timeIdDisplayedFormat);
+  const parsedDate = format(new Date(year, month - 1), timeIdDisplayedFormat);
   // const parsedDate = window.moment(timeId.toString().slice(0, 6), "YYYYMM");
   console.log("Parsed date was: ", parsedDate);
   return parsedDate || undefined;
