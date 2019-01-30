@@ -2,8 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { withState, withHandlers, withProps } from "recompose";
-import { Popover } from "@sievo/react-common-components";
+import { withState, withHandlers, withProps, mapProps } from "recompose";
+//import { Popover } from "@sievo/react-common-components";
+import Popover from "react-bootstrap/lib/Popover";
+import Overlay from "react-bootstrap/lib/Overlay";
+import Button from "react-bootstrap/lib/Button";
 import MonthPicker from "./MonthPicker";
 import * as timeRangeActions from "../Actions/timeRangeActions";
 import { toDisplayedTime } from "../Utils/timeIdConverter";
@@ -11,6 +14,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight, faCaretLeft, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import "../Styles/TimeRangePicker.css";
+
+let buttonRef = null;
+let targetRef = null;
 
 const PopoverContent = styled.div`
   width: 100%;
@@ -64,15 +70,13 @@ const generateRange = (from, to) =>
     .map((n, i) => (n + i).toString());
 
 const TimePicker = ({ from, to, onSetHandler, timeRangeInStore, yearTranslateStyle, onUpdateHandler }) => (
-  <div>
-    <MonthPicker
-      defaultRange={timeRangeInStore}
-      years={from && to ? generateRange(from, to) : {}}
-      onChange={selectedRange => onSetHandler(selectedRange)}
-      yearTranslateStyle={yearTranslateStyle}
-      onRangeChange={range => onUpdateHandler(range)}
-    />
-  </div>
+  <MonthPicker
+    defaultRange={timeRangeInStore}
+    years={from && to ? generateRange(from, to) : {}}
+    onChange={selectedRange => onSetHandler(selectedRange)}
+    yearTranslateStyle={yearTranslateStyle}
+    onRangeChange={range => onUpdateHandler(range)}
+  />
 );
 
 TimePicker.propTypes = {
@@ -109,16 +113,13 @@ const enhanceTimePicker = component =>
     }),
   )(component);
 
-const PickerPopoverContent = props => {
-  const displayFrom = props.displayRange.from
-    ? toDisplayedTime(props.displayRange.from.year, props.displayRange.from.month)
-    : " ";
-  const displayTo = props.displayRange.to
-    ? toDisplayedTime(props.displayRange.to.year, props.displayRange.to.month)
-    : " ";
+const HelloWorldTestContent = ({ ...props }) => {
+  return <Button style={{ backgroundColor: "black", ...props.style }}>Hello World!</Button>;
+};
 
+const PopoverContentX = ({ displayFrom, displayTo, ...props }) => {
   return (
-    <Popover width="230" position="centered">
+    <Popover id="really-cool-popover">
       <PopoverRangeDisplay>{`${displayFrom}-${displayTo}`}</PopoverRangeDisplay>
       <PopoverContent>
         <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
@@ -143,6 +144,23 @@ const PickerPopoverContent = props => {
   );
 };
 
+const PickerPopoverContent = props => {
+  const displayFrom = props.displayRange.from
+    ? toDisplayedTime(props.displayRange.from.year, props.displayRange.from.month)
+    : " ";
+  const displayTo = props.displayRange.to
+    ? toDisplayedTime(props.displayRange.to.year, props.displayRange.to.month)
+    : " ";
+
+  return (
+    <div className="overlay-example">
+      <Overlay show={true} placement="top" container={buttonRef} target={() => targetRef}>
+        <PopoverContentX {...props} displayFrom={displayFrom} displayTo={displayTo} />
+      </Overlay>
+    </div>
+  );
+};
+
 PickerPopoverContent.propTypes = {
   onSetHandler: PropTypes.func,
   onUpdateHandler: PropTypes.func,
@@ -162,12 +180,17 @@ const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, 
 
   return (
     <div style={{ width: "38%", marginLeft: "180px" }}>
-      <button className={`btn btn-outline sievo-popover-parent ${active ? "active" : ""}`} onClick={toggle}>
+      <button
+        className={`btn btn-outline sievo-popover-parent ${active ? "active" : ""}`}
+        onClick={toggle}
+        ref={el => (buttonRef = el)}
+      >
         <FontAwesomeIcon style={{ marginRight: "8px" }} icon={faCalendarDay} />
         {`${displayFrom} - ${displayTo}`}
       </button>
       {active ? (
         <EnhancedPopoverContent
+          innerRef={el => (targetRef = el)}
           onSetHandler={range => {
             onSetHandler(range);
             toggle();
