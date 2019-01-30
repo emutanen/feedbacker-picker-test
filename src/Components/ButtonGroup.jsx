@@ -13,7 +13,12 @@ const MarketIndexButtonGroup = () => (
       <h2>* There is no future time selection support.</h2>
     </div>
     <TimeRangePicker />
-    <h1 className="comments">Let use know your comments to the right 👉</h1>
+    <h1 className="comments">
+      Let use know your comments to the right{" "}
+      <span role="img" aria-label="Finger pointing to the right side of the page.">
+        👉
+      </span>
+    </h1>
   </div>
 );
 

@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable";
+import { fromJS } from "immutable";
 import * as types from "../Actions/actionTypes";
 import { generateInitialTimeScopeSelection } from "../Utils/timeIdRangeGenerator";
 

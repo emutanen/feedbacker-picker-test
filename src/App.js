@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ButtonGroup from "./Components/ButtonGroup";
-import logo from "./logo.svg";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 

@@ -476,7 +476,7 @@ class MonthPicker extends Component {
           <RowArea key={key}>
             <Area className="grid-area">
               <YearGrid>{this.yearLayout(year)}</YearGrid>
-              <MonthGrid>{this.monthLayout(year)}</MonthGrid>
+              <MonthGrid className="month-grid-container">{this.monthLayout(year)}</MonthGrid>
             </Area>
           </RowArea>
         ))}

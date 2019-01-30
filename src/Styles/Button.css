@@ -1,6 +1,8 @@
 .popover-content {
   width: 232px;
   height: 276px;
+  position: absolute;
+  overflow: hidden;
 }
 
 h2 {
