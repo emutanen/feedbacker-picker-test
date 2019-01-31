@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { withState, withHandlers, withProps, mapProps } from "recompose";
-//import { Popover } from "@sievo/react-common-components";
-import Popover from "react-bootstrap/lib/Popover";
-import Overlay from "react-bootstrap/lib/Overlay";
+import { Popover } from "@sievo/react-common-components";
+//import Popover from "react-bootstrap/lib/Popover";
+//import Overlay from "react-bootstrap/lib/Overlay";
 import Button from "react-bootstrap/lib/Button";
 import MonthPicker from "./MonthPicker";
 import * as timeRangeActions from "../Actions/timeRangeActions";
@@ -117,9 +117,16 @@ const HelloWorldTestContent = ({ ...props }) => {
   return <Button style={{ backgroundColor: "black", ...props.style }}>Hello World!</Button>;
 };
 
-const PopoverContentX = ({ displayFrom, displayTo, ...props }) => {
+const PickerPopoverContent = props => {
+  const displayFrom = props.displayRange.from
+    ? toDisplayedTime(props.displayRange.from.year, props.displayRange.from.month)
+    : " ";
+  const displayTo = props.displayRange.to
+    ? toDisplayedTime(props.displayRange.to.year, props.displayRange.to.month)
+    : " ";
+
   return (
-    <Popover id="really-cool-popover">
+    <Popover style={{ width: "240px", height: "254px" }} id="time-range-picker-container" isOpen={true}>
       <PopoverRangeDisplay>{`${displayFrom}-${displayTo}`}</PopoverRangeDisplay>
       <PopoverContent>
         <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
@@ -141,23 +148,6 @@ const PopoverContentX = ({ displayFrom, displayTo, ...props }) => {
         <FontAwesomeIconStyled icon={faCaretRight} />
       </RightArrow>
     </Popover>
-  );
-};
-
-const PickerPopoverContent = props => {
-  const displayFrom = props.displayRange.from
-    ? toDisplayedTime(props.displayRange.from.year, props.displayRange.from.month)
-    : " ";
-  const displayTo = props.displayRange.to
-    ? toDisplayedTime(props.displayRange.to.year, props.displayRange.to.month)
-    : " ";
-
-  return (
-    <div className="overlay-example">
-      <Overlay show={true} placement="top" container={buttonRef} target={() => targetRef}>
-        <PopoverContentX {...props} displayFrom={displayFrom} displayTo={displayTo} />
-      </Overlay>
-    </div>
   );
 };
 
