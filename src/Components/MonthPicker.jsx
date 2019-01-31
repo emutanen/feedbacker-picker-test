@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import styled from "styled-components";
+import Grid from "react-bootstrap/lib/Grid";
+import Row from "react-bootstrap/lib/Row";
+import Col from "react-bootstrap/lib/Col";
 import {
   isInRange,
   isLeftCorner,
@@ -19,13 +22,12 @@ const MonthPickerContainer = styled.div`
   position: relative;
   transform: ${props => (props.yearTranslateStyle ? `translate(-${props.yearTranslateStyle})` : "")};
   transition: 0.2s ease-in-out;
+  width: ${props => (props.containerTotalWidth ? props.containerTotalWidth : "")};
 `;
 
 const RowArea = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 5px;
-  margin-right: 5px;
 `;
 
 const Area = styled.div`
@@ -58,6 +60,7 @@ const Month = styled.button`
   width: 36px;
   height: 36px;
   border: none;
+  padding: 0;
 
   color: #164d85;
   background-color: white;
@@ -463,6 +466,7 @@ class MonthPicker extends Component {
 
   render() {
     const translateInPx = `${this.props.yearTranslateStyle * 115}px`; // this number is meaningful for design
+    const containerTotalWidth = `${16 * 115}px`;
     return (
       <MonthPickerContainer
         className="month-picker"
@@ -471,15 +475,68 @@ class MonthPicker extends Component {
           this.bodywrapper = node;
         }}
         yearTranslateStyle={translateInPx}
+        containerTotalWidth={containerTotalWidth}
       >
-        {this.years.map((year, key) => (
-          <RowArea key={key}>
-            <Area className="grid-area">
-              <YearGrid>{this.yearLayout(year)}</YearGrid>
-              <MonthGrid>{this.monthLayout(year)}</MonthGrid>
-            </Area>
-          </RowArea>
-        ))}
+        {this.years.map((year, key) => {
+          const months = this.monthLayout(year);
+          return (
+            <RowArea>
+              <Grid className="remove-padding">
+                <Row sm={12} noGutters className="margin-change">
+                  <Col sm={12} className="remove-padding text-center">
+                    {this.yearLayout(year)}
+                  </Col>
+                </Row>
+              </Grid>
+              <Grid className="remove-padding">
+                <Row sm={3} noGutters className="margin-change">
+                  <Col sm={4} className="remove-padding">
+                    {months[0]}
+                  </Col>
+                  <Col sm={4} className="remove-padding">
+                    {months[1]}
+                  </Col>
+                  <Col sm={4} className="remove-padding">
+                    {months[2]}
+                  </Col>
+                </Row>
+                <Row sm={3} noGutters className="margin-change">
+                  <Col sm={4} className="remove-padding">
+                    {months[3]}
+                  </Col>
+                  <Col sm={4} className="remove-padding">
+                    {months[4]}
+                  </Col>
+                  <Col sm={4} className="remove-padding">
+                    {months[5]}
+                  </Col>
+                </Row>
+                <Row sm={3} noGutters className="margin-change">
+                  <Col sm={4} className="remove-padding">
+                    {months[6]}
+                  </Col>
+                  <Col sm={4} className="remove-padding">
+                    {months[7]}
+                  </Col>
+                  <Col sm={4} className="remove-padding">
+                    {months[8]}
+                  </Col>
+                </Row>
+                <Row sm={3} noGutters className="margin-change">
+                  <Col sm={4} className="remove-padding">
+                    {months[9]}
+                  </Col>
+                  <Col sm={4} className="remove-padding">
+                    {months[10]}
+                  </Col>
+                  <Col sm={4} className="remove-padding">
+                    {months[11]}
+                  </Col>
+                </Row>
+              </Grid>
+            </RowArea>
+          );
+        })}
       </MonthPickerContainer>
     );
   }

@@ -15,9 +15,6 @@ import { faCaretRight, faCaretLeft, faCalendarDay } from "@fortawesome/free-soli
 import styled from "styled-components";
 import "../Styles/TimeRangePicker.css";
 
-let buttonRef = null;
-let targetRef = null;
-
 const PopoverContent = styled.div`
   width: 100%;
   height: 100%;
@@ -170,17 +167,12 @@ const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, 
 
   return (
     <div style={{ width: "38%", marginLeft: "180px" }}>
-      <button
-        className={`btn btn-outline sievo-popover-parent ${active ? "active" : ""}`}
-        onClick={toggle}
-        ref={el => (buttonRef = el)}
-      >
+      <button className={`btn btn-outline sievo-popover-parent ${active ? "active" : ""}`} onClick={toggle}>
         <FontAwesomeIcon style={{ marginRight: "8px" }} icon={faCalendarDay} />
         {`${displayFrom} - ${displayTo}`}
       </button>
       {active ? (
         <EnhancedPopoverContent
-          innerRef={el => (targetRef = el)}
           onSetHandler={range => {
             onSetHandler(range);
             toggle();

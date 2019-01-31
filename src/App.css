@@ -30,3 +30,12 @@
     transform: rotate(360deg);
   }
 }
+
+#bootstrap-overrides .remove-padding {
+  padding: 0;
+}
+
+#bootstrap-overrides .margin-change {
+  margin-left: 4px;
+  margin-right: 4px;
+}
