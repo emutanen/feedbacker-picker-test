@@ -2,6 +2,9 @@ import moment from "moment";
 
 export const getMonthNumber = (months, id) => months.findIndex(month => month === id) + 1; // if id not found, returns 0
 
+/**
+ * @comment isInRange returns true for ]range.from, range.to[ non-inclusive
+ */
 export const isInRange = (year, key, range) => {
   if (range.from && range.to) {
     const currentDate = moment([year, key, 1]).format("YYYY-MM-DD");

@@ -31,25 +31,7 @@ const RowArea = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 5px;
-`;
-
-const Area = styled.div`
-  width: 105px; // fixed width for the design
-  display: -ms-grid;
-  display: grid;
-  grid-template-rows: repeat(auto-fill, minmax(42px, 1fr));
-  background-color: transparent;
-`;
-
-const MonthGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 0fr);
-  grid-row-gap: 3px;
-`;
-
-const YearGrid = styled.div`
-  display: grid;
-  justify-content: center;
+  width: 117px;
 `;
 
 const Month = styled.button`
@@ -485,7 +467,7 @@ class MonthPicker extends Component {
         {this.years.map((year, key) => {
           const months = this.monthLayout(year);
           return (
-            <RowArea>
+            <RowArea key={key}>
               <Grid style={{ height: "48px" }} className="remove-padding">
                 <Row sm={12} className="margin-change">
                   <Col sm={12} className="remove-padding text-center">
