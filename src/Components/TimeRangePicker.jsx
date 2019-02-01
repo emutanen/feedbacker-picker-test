@@ -13,6 +13,7 @@ import { toDisplayedTime } from "../Utils/timeIdConverter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight, faCaretLeft, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+import { getYear } from "date-fns";
 import "../Styles/TimeRangePicker.css";
 
 const PopoverContent = styled.div`
@@ -152,8 +153,9 @@ PickerPopoverContent.propTypes = {
 const EnhancedPopoverContent = enhanceTimePicker(PickerPopoverContent);
 
 const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, displayRange, onUpdateHandler }) => {
-  const fromYear = 2000;
-  const toYear = 2022;
+  const fromYear = getYear(new Date()) - 10;
+  const thisYear = getYear(new Date());
+  const toYear = thisYear;
   const from = timeRangeInStore.get("start").toJS();
   const to = timeRangeInStore.get("end").toJS();
   const displayFrom = from ? toDisplayedTime(from.year, from.month) : " ";
