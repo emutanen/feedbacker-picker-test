@@ -17,7 +17,7 @@ import "../Styles/TimeRangePicker.css";
 
 const PopoverContent = styled.div`
   width: 100%;
-  height: 100%;
+  height: 80%;
   position: absolute;
   overflow: hidden;
 `;
@@ -39,8 +39,8 @@ const LeftArrow = styled.div`
   overflow: hidden;
   height: 26px;
   line-height: 1;
-  left: 6px;
-  transform: translateY(8px);
+  left: 12px;
+  transform: translateY(-32px);
   font-size: 28px;
 
   color: black;
@@ -52,8 +52,8 @@ const RightArrow = styled.div`
   overflow: hidden;
   height: 26px;
   line-height: 1;
-  right: 6px;
-  transform: translateY(8px);
+  right: 12px;
+  transform: translateY(-32px);
   font-size: 28px;
 
   color: black;

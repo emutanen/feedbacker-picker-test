@@ -108,7 +108,6 @@ const Month = styled.button`
   &:disabled {
     color: #9aa2ae;
     background: #f5f7f7;
-    box-shadow: 0 0 0 1px #e7e7e7;
     cursor: auto;
   }
   &:active {
@@ -118,6 +117,9 @@ const Month = styled.button`
 `;
 
 const Year = styled.button`
+  display: block;
+  margin: auto;
+
   border: none !important;
   align-self: center;
   background: white !important;
