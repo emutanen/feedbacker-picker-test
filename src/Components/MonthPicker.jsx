@@ -13,7 +13,9 @@ import {
   isFullYear,
   getMonthNumber,
   isLeftQuarter,
+  isLeftQuarterAndEnd,
   isRightQuarter,
+  isRightQuarterAndStart,
 } from "./utils/monthPicker";
 
 const MonthPickerContainer = styled.div`
@@ -28,6 +30,7 @@ const MonthPickerContainer = styled.div`
 const RowArea = styled.div`
   display: flex;
   flex-direction: column;
+  margin-right: 5px;
 `;
 
 const Area = styled.div`
@@ -65,15 +68,10 @@ const Month = styled.button`
   color: #164d85;
   background-color: white;
 
-  &.btn-selected {
-    background-color: #164d85;
-    color: white;
-    z-index: 4;
-  }
   &.hover-active:hover:not(.btn-corner):not(:disabled) {
-    background-color: #b7bcc0;
+    background-color: #092642;
     border-radius: 100%;
-    color: black;
+    color: white;
     z-index: 5;
   }
   &.btn-range {
@@ -109,10 +107,6 @@ const Month = styled.button`
     color: #9aa2ae;
     background: #f5f7f7;
     cursor: auto;
-  }
-  &:active {
-    background: #092642 !important;
-    color: white !important;
   }
 `;
 
@@ -215,16 +209,16 @@ const MonthSetup = (key, isTouched, year, range, selectedRange, month, that) => 
       className={classNames({
         "btn-month": true,
         "hover-active": !isTouched,
-        "btn-range": isInRange(year, key + 1, range),
-        "btn-range-endpoint-left": isLeftCorner(year, key + 1, range),
-        "btn-range-endpoint-right": isRightCorner(year, key + 1, range),
-        "btn-selected": isInRange(year, key + 1, selectedRange),
-        "btn-quarter-left": isLeftQuarter(year, key + 1, range),
-        "btn-quarter-right": isRightQuarter(year, key + 1, range),
+        "btn-range": isInRange(year, key, range),
+        "btn-range-endpoint-left": isLeftCorner(year, key, range),
+        "btn-range-endpoint-right": isRightCorner(year, key, range),
+        "btn-selected": isInRange(year, key, selectedRange),
+        "btn-quarter-left": isLeftQuarter(year, key, range),
+        "btn-quarter-right": isRightQuarter(year, key, range),
       })}
       value={month}
       id={`${month}-${year}`}
-      disabled={!!isDisabled(year, key + 1, range)}
+      disabled={!!isDisabled(year, key, range)}
       onMouseDown={e => that.onMouseDownMonth(e, year)}
       onMouseMove={e => that.onMouseMoveMonth(e, year)}
       onMouseUp={e => that.onMouseUpMonth(e, year)}
@@ -431,14 +425,23 @@ class MonthPicker extends Component {
     return this.months.map((month, key) => {
       const { range, selectedRange, isTouched } = this.state;
       let monthElement;
-      if (isLeftCorner(year, key + 1, range)) {
-        monthElement = LeftRangeEndMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
-      } else if (isRightCorner(year, key + 1, range)) {
-        monthElement = RightRangeEndMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
+      if (isLeftCorner(year, key, range)) {
+        if (isRightQuarterAndStart(year, key, range)) {
+          monthElement = MonthSetup(key, isTouched, year, range, selectedRange, month, that);
+        } else {
+          monthElement = LeftRangeEndMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
+        }
+      } else if (isRightCorner(year, key, range)) {
+        //debugger;
+        if (isLeftQuarterAndEnd(year, key, range)) {
+          monthElement = MonthSetup(key, isTouched, year, range, selectedRange, month, that);
+        } else {
+          monthElement = RightRangeEndMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
+        }
       } else {
-        if (isRightQuarter(year, key + 1, range)) {
+        if (isRightQuarter(year, key, range)) {
           monthElement = RightQuarterMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
-        } else if (isLeftQuarter(year, key + 1, range)) {
+        } else if (isLeftQuarter(year, key, range)) {
           monthElement = LeftQuarterMonthButtonSetup(key, isTouched, year, range, selectedRange, month, that);
         } else {
           monthElement = MonthSetup(key, isTouched, year, range, selectedRange, month, that);
@@ -467,8 +470,8 @@ class MonthPicker extends Component {
   };
 
   render() {
-    const translateInPx = `${this.props.yearTranslateStyle * 115}px`; // this number is meaningful for design
-    const containerTotalWidth = `${16 * 115}px`;
+    const translateInPx = `${this.props.yearTranslateStyle * 117}px`; // this number is meaningful for design
+    const containerTotalWidth = `${this.years.length * 117}px`;
     return (
       <MonthPickerContainer
         className="month-picker"
@@ -483,15 +486,15 @@ class MonthPicker extends Component {
           const months = this.monthLayout(year);
           return (
             <RowArea>
-              <Grid className="remove-padding">
-                <Row sm={12} noGutters className="margin-change">
+              <Grid style={{ height: "48px" }} className="remove-padding">
+                <Row sm={12} className="margin-change">
                   <Col sm={12} className="remove-padding text-center">
                     {this.yearLayout(year)}
                   </Col>
                 </Row>
               </Grid>
               <Grid className="remove-padding">
-                <Row sm={3} noGutters className="margin-change">
+                <Row sm={3} className="margin-change">
                   <Col sm={4} className="remove-padding">
                     {months[0]}
                   </Col>
@@ -502,7 +505,7 @@ class MonthPicker extends Component {
                     {months[2]}
                   </Col>
                 </Row>
-                <Row sm={3} noGutters className="margin-change">
+                <Row sm={3} className="margin-change">
                   <Col sm={4} className="remove-padding">
                     {months[3]}
                   </Col>
@@ -513,7 +516,7 @@ class MonthPicker extends Component {
                     {months[5]}
                   </Col>
                 </Row>
-                <Row sm={3} noGutters className="margin-change">
+                <Row sm={3} className="margin-change">
                   <Col sm={4} className="remove-padding">
                     {months[6]}
                   </Col>
@@ -524,7 +527,7 @@ class MonthPicker extends Component {
                     {months[8]}
                   </Col>
                 </Row>
-                <Row sm={3} noGutters className="margin-change">
+                <Row sm={3} className="margin-change">
                   <Col sm={4} className="remove-padding">
                     {months[9]}
                   </Col>

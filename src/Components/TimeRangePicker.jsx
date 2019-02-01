@@ -17,7 +17,6 @@ import "../Styles/TimeRangePicker.css";
 
 const PopoverContent = styled.div`
   width: 100%;
-  height: 80%;
   position: absolute;
   overflow: hidden;
 `;
@@ -110,10 +109,6 @@ const enhanceTimePicker = component =>
     }),
   )(component);
 
-const HelloWorldTestContent = ({ ...props }) => {
-  return <Button style={{ backgroundColor: "black", ...props.style }}>Hello World!</Button>;
-};
-
 const PickerPopoverContent = props => {
   const displayFrom = props.displayRange.from
     ? toDisplayedTime(props.displayRange.from.year, props.displayRange.from.month)
@@ -123,7 +118,7 @@ const PickerPopoverContent = props => {
     : " ";
 
   return (
-    <Popover style={{ width: "240px", height: "254px" }} id="time-range-picker-container" isOpen={true}>
+    <Popover style={{ width: "240px", height: "272px" }} id="time-range-picker-container" isOpen={true}>
       <PopoverRangeDisplay>{`${displayFrom}-${displayTo}`}</PopoverRangeDisplay>
       <PopoverContent>
         <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
@@ -157,8 +152,8 @@ PickerPopoverContent.propTypes = {
 const EnhancedPopoverContent = enhanceTimePicker(PickerPopoverContent);
 
 const ScopePickerPrototype = ({ active, toggle, timeRangeInStore, onSetHandler, displayRange, onUpdateHandler }) => {
-  const fromYear = 2004;
-  const toYear = 2019;
+  const fromYear = 2000;
+  const toYear = 2022;
   const from = timeRangeInStore.get("start").toJS();
   const to = timeRangeInStore.get("end").toJS();
   const displayFrom = from ? toDisplayedTime(from.year, from.month) : " ";
