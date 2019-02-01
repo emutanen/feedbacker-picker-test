@@ -120,7 +120,7 @@ const PickerPopoverContent = props => {
 
   return (
     <Popover style={{ width: "240px", height: "272px" }} id="time-range-picker-container" isOpen={true}>
-      <PopoverRangeDisplay>{`${displayFrom}-${displayTo}`}</PopoverRangeDisplay>
+      <PopoverRangeDisplay>{`${displayFrom}  -  ${displayTo}`}</PopoverRangeDisplay>
       <PopoverContent>
         <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
       </PopoverContent>
