@@ -15,6 +15,25 @@ export const isInRange = (year, key, range) => {
   return false;
 };
 
+export const isEmptyObject = obj => {
+  if (!obj) return true;
+  return Object.keys(obj).length === 0 && obj.constructor === Object; // Requires ES6 transpilation
+};
+
+export const shouldUpdateYearInRange = (year, range) => {
+  if (range.from && range.to) {
+    if (year > range.to.year) {
+      return false;
+    }
+    if (year < range.to.year - 1) {
+      // the -1 here will make sure that both visible years will re-render while moving mouse cursor
+      // if user does not paint elements with mouse while moving to intended target, the previous year may be unpainted EM190205
+      return false;
+    }
+  }
+  return true;
+};
+
 export const isLeftCorner = (year, key, range) => {
   if (!range.from || !range.to) {
     return false;
