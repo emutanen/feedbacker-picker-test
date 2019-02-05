@@ -332,47 +332,47 @@ export default class TwelveMonthPicker extends Component {
     const months = this.monthLayout(this.props.year);
     return (
       <Grid className="remove-padding">
-        <Row sm={3} className="margin-change">
-          <Col sm={4} className="remove-padding">
+        <Row xs={3} className="margin-change">
+          <Col xs={4} className="remove-padding">
             {months[0]}
           </Col>
-          <Col sm={4} className="remove-padding">
+          <Col xs={4} className="remove-padding">
             {months[1]}
           </Col>
-          <Col sm={4} className="remove-padding">
+          <Col xs={4} className="remove-padding">
             {months[2]}
           </Col>
         </Row>
-        <Row sm={3} className="margin-change">
-          <Col sm={4} className="remove-padding">
+        <Row xs={3} className="margin-change">
+          <Col xs={4} className="remove-padding">
             {months[3]}
           </Col>
-          <Col sm={4} className="remove-padding">
+          <Col xs={4} className="remove-padding">
             {months[4]}
           </Col>
-          <Col sm={4} className="remove-padding">
+          <Col xs={4} className="remove-padding">
             {months[5]}
           </Col>
         </Row>
-        <Row sm={3} className="margin-change">
-          <Col sm={4} className="remove-padding">
+        <Row xs={3} className="margin-change">
+          <Col xs={4} className="remove-padding">
             {months[6]}
           </Col>
-          <Col sm={4} className="remove-padding">
+          <Col xs={4} className="remove-padding">
             {months[7]}
           </Col>
-          <Col sm={4} className="remove-padding">
+          <Col xs={4} className="remove-padding">
             {months[8]}
           </Col>
         </Row>
-        <Row sm={3} className="margin-change">
-          <Col sm={4} className="remove-padding">
+        <Row xs={3} className="margin-change">
+          <Col xs={4} className="remove-padding">
             {months[9]}
           </Col>
-          <Col sm={4} className="remove-padding">
+          <Col xs={4} className="remove-padding">
             {months[10]}
           </Col>
-          <Col sm={4} className="remove-padding">
+          <Col xs={4} className="remove-padding">
             {months[11]}
           </Col>
         </Row>
