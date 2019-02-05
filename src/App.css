@@ -52,3 +52,8 @@
 #bootstrap-overrides .popover-header {
   color: black;
 }
+
+.popover .arrow::after,
+.popover .arrow::before {
+  left: 104px;
+}
