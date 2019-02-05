@@ -198,8 +198,9 @@ const ScopePicker = compose(
   withState("displayRange", "setDisplayRange", undefined),
   withHandlers({
     toggle: ({ setActive }) => () => setActive(active => !active),
-    onUpdateHandler: props => rangeObj => {
-      props.setDisplayRange(rangeObj.range);
+    onUpdateHandler: props => range => {
+      console.log("range: ", range);
+      props.setDisplayRange(range);
     },
   }),
   connect(

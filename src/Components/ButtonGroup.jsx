@@ -8,8 +8,9 @@ const MarketIndexButtonGroup = () => (
     <h1 className="headline">Test by clicking the button and selecting a time range.</h1>
     <div className="instruction" style={{ width: "600px" }}>
       <h2>* It is possible to select a starting point.</h2>
-      <h2>* It is possible to click arrow button to go back max 10 years.</h2>
-      <h2>* Upon opening, the picker will always open from the current year.</h2>
+      <h2>* It is possible to click left arrow button to go back max 10 years.</h2>
+      <h2>* Upon opening, the picker will always open from the year we live in!</h2>
+      <h2>* When opened, the previous range selection will not be visible.</h2>
       <h2>* The selection can be applied until the current month that we live in.</h2>
       <h2>* There is no future time selection support.</h2>
     </div>

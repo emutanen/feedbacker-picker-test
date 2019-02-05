@@ -66,6 +66,7 @@ class MonthPicker extends Component {
 
     this.years = years || [new Date().getFullYear()];
     this.months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+    // this.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     this.selectedRange = defaultRange && defaultRange.from && defaultRange.to ? defaultRange : {};
 
     this.state = {
