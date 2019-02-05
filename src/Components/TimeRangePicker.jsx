@@ -121,7 +121,6 @@ const PickerPopoverContent = props => {
       id="time-range-picker-container"
       title="Choose time range:"
       placement="bottom"
-      {...props}
     >
       <PopoverRangeDisplay>{`${displayFrom}  -  ${displayTo}`}</PopoverRangeDisplay>
       <PopoverContent>
@@ -205,7 +204,6 @@ const ScopePicker = compose(
   withHandlers({
     toggle: ({ setActive }) => () => setActive(active => !active),
     onUpdateHandler: props => range => {
-      console.log("range: ", range);
       props.setDisplayRange(range);
     },
   }),
