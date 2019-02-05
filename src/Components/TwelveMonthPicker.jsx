@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import classNames from "classnames";
-import Grid from "react-bootstrap/lib/Grid";
-import Row from "react-bootstrap/lib/Row";
-import Col from "react-bootstrap/lib/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import { getMonthNumber, isFullYear, shouldUpdateYearInRange, isEmptyObject } from "./utils/monthPicker";
 import {
   isInRange,
@@ -331,7 +331,7 @@ export default class TwelveMonthPicker extends Component {
   render() {
     const months = this.monthLayout(this.props.year);
     return (
-      <Grid className="remove-padding">
+      <Container className="remove-padding">
         <Row xs={3} className="margin-change">
           <Col xs={4} className="remove-padding">
             {months[0]}
@@ -376,7 +376,7 @@ export default class TwelveMonthPicker extends Component {
             {months[11]}
           </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
 }

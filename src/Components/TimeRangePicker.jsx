@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { withState, withHandlers, withProps } from "recompose";
-import { Popover } from "@sievo/react-common-components";
+import Popover from "react-bootstrap/Popover";
+// import { Popover } from "@sievo/react-common-components";
 import MonthPicker from "./MonthPicker";
 import * as timeRangeActions from "../Actions/timeRangeActions";
 import { toDisplayedTime } from "../Utils/timeIdConverter";
@@ -116,7 +117,14 @@ const PickerPopoverContent = props => {
     : " ";
 
   return (
-    <Popover style={{ width: "240px", height: "272px" }} id="time-range-picker-container" isOpen={true}>
+    <Popover
+      className="position-relative"
+      id="popover"
+      title="Choose time range:"
+      placement="bottom"
+      id="time-range-picker-container"
+      {...props}
+    >
       <PopoverRangeDisplay>{`${displayFrom}  -  ${displayTo}`}</PopoverRangeDisplay>
       <PopoverContent>
         <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />

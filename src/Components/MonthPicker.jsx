@@ -4,9 +4,9 @@ import classNames from "classnames";
 import styled from "styled-components";
 import TwelveMonthPicker from "./TwelveMonthPicker";
 import { isFullYear } from "./utils/monthPicker";
-import Grid from "react-bootstrap/lib/Grid";
-import Row from "react-bootstrap/lib/Row";
-import Col from "react-bootstrap/lib/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 const MonthPickerContainer = styled.div`
   display: flex;
@@ -134,13 +134,13 @@ class MonthPicker extends Component {
         {this.years.map((year, key) => {
           return (
             <RowArea>
-              <Grid style={{ height: "48px" }} className="remove-padding">
+              <Container style={{ height: "48px" }} className="remove-padding">
                 <Row sm={12} className="margin-change">
                   <Col sm={12} className="remove-padding text-center">
                     {this.yearLayout(year)}
                   </Col>
                 </Row>
-              </Grid>
+              </Container>
               <TwelveMonthPicker
                 key={`101${year}`}
                 year={year}

@@ -38,3 +38,17 @@
   margin-right: 2px;
   margin-bottom: 4px;
 }
+
+#bootstrap-overrides .position-relative {
+  position: relative;
+}
+
+#bootstrap-overrides .popover-body {
+  width: 240px;
+  height: 272px;
+  padding: 0;
+}
+
+#bootstrap-overrides .popover-header {
+  color: black;
+}
