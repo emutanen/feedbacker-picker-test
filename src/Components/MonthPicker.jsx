@@ -123,8 +123,8 @@ class MonthPicker extends Component {
   }
 
   render() {
-    const translateInPx = `${this.props.yearTranslateStyle * 117}px`; // this number is meaningful for design
-    const containerTotalWidth = `${this.years.length * 117}px`;
+    const translateInPx = this.props.yearTranslateStyle ? `${this.props.yearTranslateStyle * 117}px` : "1px"; // this number is meaningful for design
+    const containerTotalWidth = this.years.length ? `${this.years.length * 117}px` : "0px";
     const inlineStyles = {
       display: "flex",
       flexDirection: "row",
