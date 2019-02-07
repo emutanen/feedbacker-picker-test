@@ -1,0 +1,40 @@
+.btn-year {
+  display: block;
+  margin: auto;
+
+  border: none !important;
+  align-self: center;
+  background: white !important;
+  color: #122442 !important;
+  border-radius: 24px !important;
+
+  height: 36px;
+  width: 70px;
+  font-weight: normal;
+  font-size: 13px !important;
+  font-family: Qlikview Sans !important;
+  cursor: pointer;
+}
+
+.btn-year.btn-selected {
+  background-color: #092642 !important;
+  background: #5dcedb !important;
+  color: white !important;
+}
+
+.btn-year.hover-active:hover {
+  background-color: #092642 !important;
+  color: white !important;
+}
+
+.btn-year:active {
+  background-color: #092642 !important;
+  color: white !important;
+}
+
+.row-area-supplemental {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5px;
+  width: 117px;
+}

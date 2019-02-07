@@ -122,8 +122,8 @@ const PickerPopoverContent = props => {
       title="Choose time range:"
       placement="bottom"
     >
-      <PopoverRangeDisplay>{`${displayFrom}  -  ${displayTo}`}</PopoverRangeDisplay>
-      <PopoverContent>
+      <PopoverRangeDisplay className="popover-range-display-supplemental">{`${displayFrom}  -  ${displayTo}`}</PopoverRangeDisplay>
+      <PopoverContent className="popover-content-supplemental">
         <TimePicker from={props.fromYear} to={props.toYear} yearTranslateStyle={props.rangeTranslation} {...props} />
       </PopoverContent>
       <LeftArrow

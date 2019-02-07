@@ -16,3 +16,43 @@
 .sievo-popover-parent:hover {
   color: white !important;
 }
+
+.popover-content-supplemental {
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+}
+
+.popover-range-display-supplemental {
+  color: black;
+  width: 100%;
+  padding: 15px 7.5px 7.5px 7.5px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.left-arrow-button {
+  position: absolute;
+  overflow: hidden;
+  height: 26px;
+  line-height: 1;
+  left: 12px;
+  transform: translateY(-32px);
+  font-size: 28px;
+
+  color: black;
+  cursor: pointer;
+}
+
+.right-arrow-button {
+  position: absolute;
+  overflow: hidden;
+  height: 26px;
+  line-height: 1;
+  right: 12px;
+  transform: translateY(-32px);
+  font-size: 28px;
+
+  color: black;
+  cursor: pointer;
+}

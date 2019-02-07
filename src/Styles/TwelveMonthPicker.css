@@ -1,0 +1,63 @@
+.btn-month {
+  display: block;
+  box-sizing: border-box;
+  font-size: 13px;
+  font-family: Qlikview Sans;
+  font-weight: normal;
+  cursor: pointer;
+
+  width: 36px;
+  height: 36px;
+  border: none;
+  padding: 0;
+
+  color: #164d85;
+  background-color: white;
+}
+
+.btn-month.hover-active:hover:not(.btn-corner):not(:disabled) {
+  background-color: #092642;
+  border-radius: 100%;
+  color: white;
+  z-index: 5;
+}
+
+.btn-month.btn-range {
+  background: #164d85;
+  color: white;
+  z-index: 4;
+}
+
+.btn-month.btn-quarter-left {
+  background: #164d85;
+  border-radius: 100%;
+  color: white;
+  z-index: 4;
+}
+
+.btn-month.btn-quarter-right {
+  background: #164d85;
+  border-radius: 100%;
+  color: white;
+  z-index: 4;
+}
+
+.btn-month.btn-range-endpoint-left {
+  background: #092642;
+  border-radius: 100%;
+  color: white;
+  z-index: 5;
+}
+
+.btn-month.btn-range-endpoint-right {
+  background: #092642;
+  border-radius: 100%;
+  color: white;
+  z-index: 5;
+}
+
+.btn-month:disabled {
+  color: #9aa2ae;
+  background: #f5f7f7;
+  cursor: auto;
+}

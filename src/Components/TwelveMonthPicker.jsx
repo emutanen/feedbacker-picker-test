@@ -16,6 +16,7 @@ import {
   isRightQuarter,
   isRightQuarterAndStart,
 } from "./utils/monthPicker";
+import "../Styles/TwelveMonthPicker.css";
 
 const Month = styled.button`
   display: block;

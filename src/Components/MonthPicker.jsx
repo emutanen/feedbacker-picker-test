@@ -133,7 +133,7 @@ class MonthPicker extends Component {
       >
         {this.years.map((year, key) => {
           return (
-            <RowArea key={`area-${year}`}>
+            <RowArea key={`area-${year}`} className="row-area-supplemental">
               <Container style={{ height: "48px" }} className="remove-padding">
                 <Row sm={12} className="margin-change">
                   <Col sm={12} className="remove-padding text-center">
