@@ -7,6 +7,7 @@ import { isFullYear } from "./utils/monthPicker";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import "../Styles/MonthPicker.css";
 
 const MonthPickerContainer = styled.div`
   display: flex;
@@ -124,9 +125,19 @@ class MonthPicker extends Component {
   render() {
     const translateInPx = `${this.props.yearTranslateStyle * 117}px`; // this number is meaningful for design
     const containerTotalWidth = `${this.years.length * 117}px`;
+    const inlineStyles = {
+      display: "flex",
+      flexDirection: "row",
+      position: "relative",
+      transform: this.props.yearTranslateStyle ? `translate(-${this.props.yearTranslateStyle})` : "",
+      transition: "0.2s ease-in-out",
+      width: this.props.containerTotalWidth ? this.props.containerTotalWidth : "",
+    };
+
     return (
       <MonthPickerContainer
         className="month-picker"
+        style={inlineStyles}
         length={this.years.length}
         yearTranslateStyle={translateInPx}
         containerTotalWidth={containerTotalWidth}
