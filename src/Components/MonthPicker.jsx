@@ -129,9 +129,9 @@ class MonthPicker extends Component {
       display: "flex",
       flexDirection: "row",
       position: "relative",
-      transform: this.props.yearTranslateStyle ? `translate(-${this.props.yearTranslateStyle})` : "",
+      transform: `translate(-${translateInPx})`,
       transition: "0.2s ease-in-out",
-      width: this.props.containerTotalWidth ? this.props.containerTotalWidth : "",
+      width: `${containerTotalWidth}`,
     };
 
     return (
